@@ -8,7 +8,6 @@ format:
       - reveal-auto-agenda
     auto-agenda:
       bullets: numbered
-      heading: Getting started with report writing using Quarto
     transition: fade
     background-transition: fade
     highlight-style: zenburn
@@ -37,17 +36,37 @@ knitr:
 
 </center>
 
-# Overview
+# Overview    
 
-## Workshop materials
+## What we will create today
+
+![](images/reports.png)
+::: notes
+Today, we'll create reports for polling locations in different states in the U.S. We will touch briefly on PDF report generation, iteration, and styling, but will focus mostly on the set up and execution of HTML reports.
+:::
+
+## Data
+
+We will be using data from the latest [TidyTuesday](https://github.com/rfordatascience/tidytuesday) on polling places in the U.S.
+
+- The dataset contains information on the election day(s) in the state, polling locations and their addresses, and various other data points
+- We'll be using a geocoded dataset thanks to [@thedivtagguy's geocoding analysis](https://github.com/thedivtagguy/tidytuesday/tree/master/2024/week-03-polling-places/analysis)
+
+![](images/data.png){fig-align="center"}
+
+::: notes
+We won't be covering data cleaning in this session. These data are cleaned into tidy format, with rows for each polling location.
+:::
+
+## Session materials
 
 ::: incremental
 -   Slides: <https://ivelasq.quarto.pub/getting-started-with-report-writing-using-quarto/>
--   GitHub repo with instructions: <https://github.com/ivelasq/2022-10-27_intro-to-quarto>
--   posit.cloud Project: <https://rstudio.cloud/content/4823293>
+-   GitHub repo with instructions: <https://github.com/ivelasq/reports-with-quarto-exercises>
+-   posit.cloud Project: <https://posit.cloud/content/7416825>
 :::
 
-## Workshop prep
+## Session prep
 
 To follow along with the exercises, please be sure that you:
 
@@ -274,19 +293,26 @@ In RStudio, you can use the Render button to render the file, or take it through
 
 - Include metadata such as author, subtitle, date as well as customization options like theme, font color, fig-width, etc.
 - Here, we edit the title, author, publishing date, format, and code chunk options
+- `embed-resources: true` is very imporant to create self-contained HTML files
 
 ```yaml
 ---
 title: "Polling Places Report - Alabama"
 author: "Isabella Velásquez"
 date: today
-format: html
+format: 
+  html:
+    embed-resources: true
 execute:
   echo: false
   message: false
   warning: false
 ---
 ```
+
+::: notes
+`embed-resources: true` produces a standalone HTML file with no external dependencies, using data: URIs to incorporate the contents of linked scripts, stylesheets, images, and videos. The resulting file should be “self-contained,” in the sense that it needs no external files and no net access to be displayed properly by a browser.
+:::
 
 ## Add a setup chunk {.smaller}
 
@@ -397,12 +423,14 @@ In this report, we present a detailed overview of polling places in various coun
 
 ## Let's see it in RStudio! {font-family="Gilda+Display" background-color="#F5F1E3" background-image="images/section.png"}
 
+- Please open `01-template-report.qmd`
+
 # Iterating your reports
 
 ## Notice how much we'd have to repeat for each report
 
 - Manually creating tables for every county - 1881 counties!
-- Manually creating report for every state in the country - 50 states!
+- Manually creating report for every state in the country - 39 states!
 
 ![](https://media.tenor.com/lJ8UqR3kA7oAAAAj/mushroom-scream.gif){fig-align="center"}
 
@@ -465,6 +493,8 @@ The template begins with a title section that includes the county name obtained 
 
 ## Let's see it in RStudio! {font-family="Gilda+Display" background-color="#F5F1E3" background-image="images/section.png"}
 
+- Please open `02-iterate-report-knit-child.qmd`
+
 ## Let's automate the state reports using parameters
 
 - Parameters refer to variables or values that you can set at the beginning of your document or in the YAML header
@@ -489,7 +519,9 @@ Source: [Parameterized Reporting with Quarto](https://jadeyryan.quarto.pub/rladi
 title: "Polling Places Report - Alabama"
 author: "Isabella Velásquez"
 date: today
-format: html
+format: 
+  html:
+    embed-resources: true
 execute:
   echo: false
   message: false
@@ -501,14 +533,16 @@ params:
 
 ## Replace hard-coded variables with the params variable
 
-- Adding parameters in the YAML require the `{{meta}}` syntax to reference things in the document metadata
+- Adding parameters in the YAML require inline code
 
 ```yaml
 ---
-title: "Polling Places Report - {{< meta params.state >}}"
+title: "Polling Places Report - `r params$state``"
 author: "Isabella Velásquez"
 date: today
-format: html
+format: 
+  html:
+    embed-resources: true
 execute:
   echo: false
   message: false
@@ -547,7 +581,9 @@ This includes our inline code and child `_template.qmd` document!
 title: "Polling Places Report - {{< meta params.state >}}"
 author: "Isabella Velásquez"
 date: today
-format: html
+format: 
+  html:
+    embed-resources: true
 execute:
   echo: false
   message: false
@@ -565,7 +601,9 @@ params:
 title: "Polling Places Report - {{< meta params.state >}}"
 author: "Isabella Velásquez"
 date: today
-format: html
+format: 
+  html:
+    embed-resources: true
 execute:
   echo: false
   message: false
@@ -597,7 +635,9 @@ quarto::quarto_render(
 
 ## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
 
-## Render all 50 reports {.smaller}
+- Please open `03-iterate-report-parameters.qmd`
+
+## Render all 39 reports {.smaller}
 
 Option 1: 
 
@@ -606,10 +646,10 @@ Option 1:
 1. Change the `params` for each state and render the document
 2. Render the report
 3 Change the file name to match the parameter
-4. Repeat 50 times
+4. Repeat 39 times
 :::
 
-## Render all 50 reports {.smaller}
+## Render all 39 reports {.smaller}
 
 One HTML report for each state.
 
@@ -669,6 +709,9 @@ purrr::pwalk(
 
 ## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
 
+- Please open `03-iterate-report-parameters.qmd`
+- Also open `03-parameters-render.R`
+
 ::: {.callout-note}
 Jadey Ryan is holding a workshop on parameterized report generation using Quarto with R-Ladies Abuja on February 21st!
 :::
@@ -684,8 +727,9 @@ Jadey Ryan is holding a workshop on parameterized report generation using Quarto
 title: "Polling Places Report - {{< meta params.state >}}"
 author: "Isabella Velásquez"
 date: today
-format:
+format: 
   html:
+    embed-resources: true
     theme:  united
 execute:
   echo: false
@@ -698,6 +742,8 @@ params:
 
 ## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
 
+- Please open `04-united-theme.qmd`
+
 ## Use extensions {.smaller}
 
 - Extensions are a powerful way to modify and extend Quarto
@@ -709,7 +755,9 @@ params:
 title: "Polling Places Report - {{< meta params.state >}}"
 author: "Isabella Velásquez"
 date: today
-format: sketchy-html
+format: 
+  sketchy-html:
+    embed-resources: true
 execute:
   echo: false
   message: false
@@ -720,6 +768,8 @@ params:
 ```
 
 ## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
+
+- Please open `05-sketchy-theme.qmd`
 
 ## Use custom themes {.smaller}
 
@@ -734,8 +784,9 @@ params:
 title: "Polling Places Report - {{< meta params.state >}}"
 author: "Isabella Velásquez"
 date: today
-format:
+format: 
   html:
+    embed-resources: true
     theme: [default, custom.scss]
 execute:
   echo: false
@@ -776,8 +827,9 @@ $link-color: #446571 !default;
 title: "Polling Places Report - {{< meta params.state >}}"
 author: "Isabella Velásquez"
 date: today
-format:
+format: 
   html:
+    embed-resources: true
     theme: [default, custom.scss]
 title-block-banner: images/flag.jpg
 execute:
@@ -790,6 +842,38 @@ params:
 ```
 
 ## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
+
+- Please open `06-custom-theme.qmd`
+
+# Rendering other formats
+
+## Add other formats to the YAML
+
+- Quarto can render multiple formats from the same document
+- For example, add `pdf` to the YAML to render both HTML and PDF versions of the report
+
+```yaml
+---
+title: "Polling Places Report - {{< meta params.state >}}"
+author: "Isabella Velásquez"
+date: today
+format:
+  html:
+    theme: [default, custom.scss]
+  pdf: default
+title-block-banner: images/flag.jpg
+execute:
+  echo: false
+  message: false
+  warning: false
+params:
+  state: "California"
+---
+```
+
+## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
+
+- Please open `07-multiple-formats.qmd`
 
 # Thank you!
 

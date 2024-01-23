@@ -1,0 +1,4 @@
+- source: index.qmd
+  quarto-pub:
+    - id: 247f7f91-b588-4d9e-ac15-ab0dd497d906
+      url: 'https://ivelasq.quarto.pub/getting-started-with-report-writing-using-quarto'
