@@ -1,0 +1,820 @@
+---
+title: "Getting started with report writing using Quarto"
+format:
+  revealjs: 
+    theme: [default, custom.scss]
+    filters:
+      - fontawesome
+      - reveal-auto-agenda
+    auto-agenda:
+      bullets: numbered
+      heading: Getting started with report writing using Quarto
+    transition: fade
+    background-transition: fade
+    highlight-style: zenburn
+    title-slide-attributes: 
+      data-background-image: images/title.png
+      data-background-color: "black"
+    footer: "https://github.com/ivelasq/getting-started-with-report-writing-using-quarto"
+knitr: 
+  opts_chunk: 
+    fig.align: center
+---
+
+## Introduction
+
+<center>
+
+<img src="https://pbs.twimg.com/profile_images/1399221981061451781/aJvNk5sS_400x400.jpg" style="border-radius: 50%;" width="250px"/>
+
+[{{< fa brands github >}} \@ivelasq](https://github.com/ivelasq)
+
+[{{< fa brands twitter >}} \@ivelasq3](https://twitter.com/ivelasq3)
+
+[{{< fa brands mastodon >}} \@ivelasq3](https://fosstodon.org/@ivelasq3)
+
+[{{< fa link >}} ivelasq.rbind.io](https://ivelasq.rbind.io)
+
+</center>
+
+# Overview
+
+## Workshop materials
+
+::: incremental
+-   Slides: <https://ivelasq.quarto.pub/getting-started-with-report-writing-using-quarto/>
+-   GitHub repo with instructions: <https://github.com/ivelasq/2022-10-27_intro-to-quarto>
+-   posit.cloud Project: <https://rstudio.cloud/content/4823293>
+:::
+
+## Workshop prep
+
+To follow along with the exercises, please be sure that you:
+
+-   Are on RStudio v2023.06 or later and have cloned the exercise repo
+-   Or, have a posit.cloud account and can access the project
+
+::: notes
+You have a few options of how to attend this session. On the README file of the GitHub repo for this session is a list of instructions and a link to the exercise repo. One option is that you have a local copy of the exercises already, and when we get to the different sections you can follow along with what I am doing on your own RStudio. Another option is that you sign up for Posit Cloud and go into the project to follow along. It is also linked in the instructions. One benefit of this is that you don't have to have RStudio installed on your computer and the project is ready, the packages are installed for you, and you can save a copy of your work if you would like. But, please feel free to just watch the session and try things out on your own afterwards. The slides, repositories, and project will stay up so that you can try things out on your own time. One other thing to note is that Quarto has a lot of options for creating content, so I added some reference materials in the exercise repo README so that you can play around with other options other than the ones I show you.
+:::
+
+## Native base R pipe `|>`
+
+- Introduced in R 4.1.0
+- Similar to the magrittr pipe
+
+```{{r}}
+mtcars |>
+  ggplot(aes(x = hp, y = mpg)) +
+  geom_point()
+```
+
+# What is Quarto? {.r-stretch}
+
+## What is Quarto? {auto-animate="true"}
+
+<center>
+
+Quarto® is an
+
+::: {.fragment .grow .semi-fade-out}
+open-source
+:::
+
+::: {.fragment .grow .semi-fade-out}
+scientific and technical
+:::
+
+::: {.fragment .grow .semi-fade-out}
+publishing system
+:::
+
+::: {.fragment .grow .semi-fade-out}
+built on Pandoc.
+:::
+
+</center>
+
+::: aside
+Available at quarto.org
+:::
+
+::: notes
+Quarto is an open-source scientific and technical publishing system built on Pandoc. Let's break this down: Open-source: Posit believes that it's better for everyone if the tools used for research and science are free and open. Free software means more reproducibility, widespread sharing of knowledge and techniques, and elimination of cost barriers. You can also see the source code and contribute, too. Scientific and technical: Scientific and technical means that Quarto has specific things for journal articles or scientific papers, like support for code execution, citations, footnotes, scientific markdown, equations, citations, crossrefs, so many things. We'll be showing some of these later on. Publishing system: Quarto is a tool for writing dynamic documents that combine code, output, and text. It can embed output from Python, R, Julia, and Observable. Quarto can be rendered to create high-quality articles, reports, presentations, websites, blogs, and books in HTML, PDF, MS Word, ePub, and more formats. Pandoc is the tool working behind the scenes to change Quarto documents to their finalized format. Quarto documents are authored with markdown, which is a plain text format. But Pandoc markdown is very rich and lets you control your document in very specific ways.
+:::
+
+## What is Quarto? {.r-stretch}
+
+![](images/quarto.png)
+
+::: notes
+Quarto sits inside the big and broad literate programming world, which mixes narrative in text form with code for formatted outputs like documents and webpages and more.
+:::
+
+## Quarto origins
+
+::: incremental
+-   Open source project sponsored by Posit (formerly RStudio)
+-   We've had 10 years of experience with knitr/R Markdown
+-   But there are a lot of other programming languages...
+:::
+
+. . .
+
+Can we reimplement R Markdown such that it's not tied to R?
+
+## Quarto goals
+
+::: incremental
+-   Create computational documents that hold source code for automation and reproducibility
+-   Reduce how difficult it is to make a scientific document
+-   Enable "single-source publishing" --- create Word, PDFs, HTML, etc. from one source
+:::
+
+::: notes
+So the goals are to create these dynamic documents that can be reproducible and automated. For single-source publishing, you often need to create all sorts of output, like things that are printed, on the web, on the mobile. The idea is to being able to make publications from one source.
+:::
+
+## Quarto formats
+
+Quarto can create various types of documents, including:
+
+::: incremental
+- Websites
+- Books
+- Blogs
+- Presentations
+- and, of course, reports!
+:::
+
+::: notes
+Quarto can make very flexible websites, or books which are a a Quarto website that can be rendered to Word, ePub, etc., blogs with listings and posts and RSS feeds, Quarto has deep feature set for presentations with reveal.js optimized for scientific content, and of course, publishing for journals. There is custom format systems and the ability to flexibly adapt LaTeX templates.
+:::
+
+## Why Quarto?
+
+- **Automation**: Update your report and/or code output
+- **Reproducibility**: Document your process and make it easy to reproduce and replicate your work
+- **Flexibility**: Add multiple data sources, create figures, tables, diagrams, etc.
+- **Single-source publishing**: Ability to create HTML, PDF, Word versions from a single source
+
+::: notes
+Shirley Han has a great YouTube video from the R NYC Conference on Quarto reports. She mentions that if you are writing a report repeatedly, so not just one time, where the structure stays the same but the data or numbers or figures change, then Quarto may be for you. Also, if you are already using a Quarto-supported language for data cleaning, creating graphs, etc., then it might be a good fit.
+:::
+
+## Why Quarto over R Markdown?
+
+Ultimately, it's up to you!
+
+- R Markdown will continue to be maintained, but Quarto will receive large future updates
+- If you use Python or Julia, you can use the same tool without depending on R. And other engines can be added in the future!
+- Quarto provides a unified ecosystem with shared expression for core features
+- Quarto also has extensions for customizing your documents
+
+::: notes
+R Markdown is a file format for making dynamic documents with R. However, you need to call it from R to use it, and it was depedentn on knitr. If you're a Python user, it means you need to install R to use R Markdown. Quarto is a tool that you can call from the terminal or command line, and is independent from the computational systems. Quarto supports knitr, and can support others. So, you can think of Quarto as the next generation R Markdown that is fundamentally multilanguage and multiengine. Quarto has a shared expression for core features. If you used the packages from the R Markdown ecosystem, then you may have had to switch between different ways of doing the same thing. In Quarto, you have a shared core syntax that is the same across all formats. Things like tabset, code folding, cross references in the same way. Another example is that Quarto has a universal theming system based on SCSS for all HTML output where core variables defined by bslib and so it is compatible with Shiny, flexdashboard, and R Markdown themes. So, users can create very consistent and organized theming across content.
+:::
+
+# Getting started with Quarto
+
+## Installing RStudio
+
+You can use Quarto in RStudio, VS Code, Jupyter, Neovim, and other text editors.
+
+Today, we will use RStudio, which comes bundled with Quarto.
+
+![](images/rstudio.png){fig-align="center"}
+
+## Creating a new Quarto document {.smaller}
+
+Create a new Quarto document by going to File > New File > Quarto Document.
+
+- Notice the `.qmd` extension of the Quarto document
+
+![](images/open-doc.png){fig-align="center"}
+
+## Creating a new Quarto document
+
+This is what the default Quarto document looks like:
+
+![](images/new-doc.png){fig-align="center"}
+
+## YAML header
+
+- Metadata of your document
+- Demarcated by three dashes (---) on either end
+- Uses key-value pairs in the format `key: value`
+
+![](images/yaml-original.png){fig-align="center"}
+
+::: notes
+Quarto documents usually start with an (optional) YAML header demarcated by three dashes on either end. The basic syntax of YAML uses key-value pairs in the format key: value. It controls the output of the document and contain metadata for your document. YAML fields commonly found in headers of documents include metadata like author, subtitle, date as well as customization options like theme, fontcolor, fig-width, etc.
+:::
+
+## YAML intelligence
+
+- YAML intelligence is available for project files, YAML front matter, and executable cell options
+
+![](images/yaml-auto.png){fig-align="center"}
+
+::: notes
+Quarto has YAML intelligence in RStudio and VS code. YAML intelligence means completion and diagnostics for errors, and its' available for project files, YAML front matter, and executable cell options. This makes it easy to write YAML and see what has gone wrong rather than getting error messages that are really hard to decipher.
+:::
+
+## Markdown text
+
+- Markdown is a lightweight language for creating formatted text
+- Quarto is based on Pandoc and uses its variation of markdown as its underlying document syntax
+
+![](images/markdown-text.png){fig-align="center"}
+
+::: notes
+Markdown is a lightweight markup language for creating formatted text using a plain-text editor. Quarto uses markdown syntax for text.
+:::
+
+## Executable code {.smaller}
+
+- Code chunks begin and end with three backticks (usually)
+- Code chunks are identified with a programming language in between `{}`
+- Can include optional chunk options, in YAML style, identified by `#|` at the beginning of the line
+
+![](images/executable-code.png){fig-align="center"}
+
+::: notes
+Code chunks are identified with three backticks, the language in curly brackets, and can have optional chunk options identified by the hashpipe at the beginning of the line within the chunk. In addition to rendering the complete document to view the results of code chunks you can also run each code chunk interactively in the RStudio editor by clicking the icon or keyboard shortcut (⇧⌘⏎). RStudio executes the code and displays the results either inline within your file or in the Console, depending on your preference.
+:::
+
+## Two editors: source and visual
+
+- RStudio includes a visual editor for Quarto markdown, including support for tables, citations, cross-references, footnotes, and more:
+
+![](images/editors.png){fig-align="center"}
+
+::: notes
+RStudio has two options for editing documents: visual (on the left) and source (on the right). RStudio's visual editor offers an WYSIWYM authoring experience for markdown. So formatting (e.g. bolding text) you can use the toolbar, a keyboard shortcut (⌘B), or the markdown construct (**bold**). The plain text source code underlying the document is written for you and you can view/edit it at any point by switching to source mode for editing. You can toggle back and forth these two modes by clicking on Source and Visual in the editor toolbar (or using the keyboard shortcut ⌘⇧ F4).
+:::
+
+## Creating a new Quarto document
+
+Use the **Render** button to preview documents as you edit them.
+
+- Check off **Render on Save**  to automatically render whenever you save
+
+![](images/render.png){fig-align="center"}
+
+::: notes
+In RStudio, you can use the Render button to render the file, or take it through that process of convering to markdown, pandoc processing, etc. and preview the output with a single click. If you're familiar with R Markdown, it is where the knit button would show for those document. If you prefer to automatically render whenever you save, you can check the Render on Save option on the editor toolbar. The preview will update whenever you re-render the document. Side-by-side preview works for both HTML and PDF outputs.
+:::
+
+## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
+
+# Creating your Quarto report
+
+## Edit the YAML header
+
+- Include metadata such as author, subtitle, date as well as customization options like theme, font color, fig-width, etc.
+- Here, we edit the title, author, publishing date, format, and code chunk options
+
+```yaml
+---
+title: "Polling Places Report - Alabama"
+author: "Isabella Velásquez"
+date: today
+format: html
+execute:
+  echo: false
+  message: false
+  warning: false
+---
+```
+
+## Add a setup chunk {.smaller}
+
+- We can add chunk options on a per code-block basis by using `#|`
+- In this setup chunk, we can load all the packages that we need and the dataset that we will be using
+
+```{{r}}
+#| label: setup
+library(readr)
+library(dplyr)
+library(tidyr)
+library(tidycensus)
+library(tigris)
+library(sf)
+library(ggplot2)
+library(purrr)
+library(kableExtra)
+polling_places <- read_csv(here::here("data", "geocoded_polling_places.csv"))
+```
+
+## Create a template report {.scrollable}
+
+Next, we can create a template of what we'd like the report to look like by adding:
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+- Text and text formatting
+- Headings
+- Lists
+- Figures
+- Tables
+- Columns
+- Cross-references
+- Captions
+
+:::
+
+::: {.column width="50%"}
+
+![](images/template.png)
+
+:::
+::::
+
+## Add figure with captions and labels {.smaller}
+
+- Use the chunk option `#| fig-cap:` to add a caption to a figure or table
+- Add `#| label: fig-` to create cross-references
+
+```{{r}}
+#| label: "fig-state-map"
+#| fig-cap: "Polling locations in the state"
+#| results: hide
+us_states <- states(cb = TRUE, resolution = "20m") |>
+  filter(NAME != "Puerto Rico")
+
+ggplot(us_states |> filter(NAME == "Alabama")) +
+  geom_sf() +
+  geom_point(data = polling_places |> filter(state == "Alabama"),
+             aes(x = longitude,
+                 y = latitude),
+             alpha = 0.4) +
+  theme_void() 
+```
+
+- Reference the figure in other locations using `\@fig-label`.
+
+```markdown
+See polling place locations in @fig-statemap.
+```
+
+## Add inline code
+
+- Add inline code (within Markdown) using `` `r` ``
+- When the document is rendered, the expression in the back-ticks will be executed
+
+Manual:
+
+```markdown
+* Total number of counties: **65**
+* Total number of polling places: **2075**
+* Election Day: **2020-11-03**
+```
+
+Inline code:
+
+````markdown
+* Total number of counties: **`{{r}} polling_places |> filter(state == "Alabama") |> distinct(county_name) |> count()`**
+* Total number of polling places: **`{{r}} polling_places |> filter(state == "Alabama") |> count()`**
+* Election Day: **`{{r}} polling_places |> filter(state == "Alabama") |> pull(election_date) |> unique()`**
+````
+
+::: notes
+Let's say you have a sentence with lots of numbers pulled from your data and you would like to use those numbers in your report. Manual updating is error prone. If there's a lot of numbers to update, it can be very tedious and easy to make mistakes. It can be very time consuming. And it is difficult to remember what you've already updated. Instead, you can use inline code that execute and print your results directly in your Markdown text. 
+:::
+
+## Add footnotes
+
+- Add a footnote by using `[^1]` within the text, and `[^1]: Here is the footnote.` to write out the footnote.
+
+```markdown
+In this report, we present a detailed overview of polling places in various counties across the United States, providing information on the total number of polling places and showcasing example locations for each county on election day.[^1]
+
+[^1]: Data from https://github.com/rfordatascience/tidytuesday
+```
+
+## Let's see it in RStudio! {font-family="Gilda+Display" background-color="#F5F1E3" background-image="images/section.png"}
+
+# Iterating your reports
+
+## Notice how much we'd have to repeat for each report
+
+- Manually creating tables for every county - 1881 counties!
+- Manually creating report for every state in the country - 50 states!
+
+![](https://media.tenor.com/lJ8UqR3kA7oAAAAj/mushroom-scream.gif){fig-align="center"}
+
+::: notes
+
+:::
+
+## Let's automate the county tables using `knitr::knit_child()`
+
+- `knitr::knit_child()` allows you to break your content into smaller, modular pieces
+- It involves having a "child" document as a template and running it repeatedly with different parameters
+- The "main" document "knits" or includes the output from the child document
+
+::: notes
+In Quarto, when you have a master document that includes or "knits" other documents, the child documents are referred to as "knit_child." It's a way to organize your content by breaking it into smaller, modular pieces. The main document can then knit or combine these child documents into a final output.
+:::
+
+## Set up the "main" document
+
+````markdown
+```{{r}}
+#| results: hide
+counties <- polling_places |> filter(state == "Alabama") |> distinct(county_name) |> pull()
+expanded_child <- lapply(counties,
+                         function(xx)
+                           knitr::knit_expand("../_template.qmd", current_title = xx))
+
+parsed_child <- knitr::knit_child(text = unlist(expanded_child))
+```
+
+`{{r}} parsed_child`
+````
+
+::: notes
+This code filters data for Alabama, extracts unique county names, generates child documents based on a template for each county, and then combines these documents into a single document using the knit_child function. It starts by filtering the polling_places data to include only rows where the state is "Alabama." Then we create an empty list named expanded_child, use the lapply function to iterate over each county name (xx), and for each county, it expands a child document by applying the knit_expand function to a template file ("../_template.qmd").  The current_title = xx argument is passed to the knit_expand function to customize the expansion based on the current county name. Finally, it combines the expanded child documents into a single document using knit_child. The unlist function is used to convert the list of expanded child documents into a character vector.
+:::
+
+## Set up the "child" document
+
+In another file called `_template.qmd`:
+
+```markdown
+### {{current_title}} COUNTY
+
+* Total Polling Places: `{{r}} polling_places |> filter(state == params$state, county_name == "{{current_title}}") |> count()`
+* Example Locations:
+
+```{{r}}
+polling_places |> 
+  filter(state == params$state, 
+         county_name == "{{current_title}}") |> 
+  head(6) |> 
+  select(name, address.x) |> 
+  kbl(format = "markdown")
+```
+
+::: notes
+The template begins with a title section that includes the county name obtained from the current_title variable. The polling_places data is filtered again to include only the specified state and county. The selected columns (name and address.x) are formatted as a Markdown table using the kbl function.
+:::
+
+## Let's see it in RStudio! {font-family="Gilda+Display" background-color="#F5F1E3" background-image="images/section.png"}
+
+## Let's automate the state reports using parameters
+
+- Parameters refer to variables or values that you can set at the beginning of your document or in the YAML header
+- These parameters can be used to specifying values that are used throughout the document
+
+## Let's automate the state reports using parameters
+
+- Using parameters means that we can create copies of the same report for different values by just changing the parameter in the YAML
+
+![](images/params.png){fig-align="center"}
+
+::: aside
+Source: [Parameterized Reporting with Quarto](https://jadeyryan.quarto.pub/rladies-abuja-quarto-params/materials.html) by Jadey Ryan
+:::
+
+## Edit the YAML header {.smaller}
+
+- Use `params` in the key:value pair
+
+```yaml
+---
+title: "Polling Places Report - Alabama"
+author: "Isabella Velásquez"
+date: today
+format: html
+execute:
+  echo: false
+  message: false
+  warning: false
+params:
+  state: "Alabama"
+---
+```
+
+## Replace hard-coded variables with the params variable
+
+- Adding parameters in the YAML require the `{{meta}}` syntax to reference things in the document metadata
+
+```yaml
+---
+title: "Polling Places Report - {{< meta params.state >}}"
+author: "Isabella Velásquez"
+date: today
+format: html
+execute:
+  echo: false
+  message: false
+  warning: false
+params:
+  state: "Alabama"
+---
+```
+
+## Replace hard-coded variables with the params variable {.smaller}
+
+- Within the document, use the `params$state` notation
+
+```{{r}}
+ggplot(us_states |> filter(NAME == params$state)) +
+  geom_sf() +
+  geom_point(data = polling_places |> filter(state == params$state),
+             aes(x = longitude,
+                 y = latitude),
+             alpha = 0.4) +
+  theme_void() 
+```
+
+::: {.callout-note}
+This includes our inline code and child `_template.qmd` document!
+:::
+
+## Edit `params` in the YAML to rerender the report for different states
+
+:::: {.columns}
+
+::: {.column width="50%"}
+
+```yaml
+---
+title: "Polling Places Report - {{< meta params.state >}}"
+author: "Isabella Velásquez"
+date: today
+format: html
+execute:
+  echo: false
+  message: false
+  warning: false
+params:
+  state: "Alabama"
+---
+```
+:::
+
+::: {.column width="50%"}
+
+```yaml
+---
+title: "Polling Places Report - {{< meta params.state >}}"
+author: "Isabella Velásquez"
+date: today
+format: html
+execute:
+  echo: false
+  message: false
+  warning: false
+params:
+  state: "California"
+---
+```
+
+:::
+::::
+
+## Render the parameterized document
+
+::: incremental
+
+1. Render button in RStudio
+2. Quarto CLI: `quarto render polling-places-report.qmd -P state:'California'`
+3. The quarto R package: `quarto::quarto_render()`
+
+:::
+
+```r
+quarto::quarto_render(
+  input = here::here("polling-places-report.qmd"),
+  execute_params = list(state = "California")
+)
+```
+
+## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
+
+## Render all 50 reports {.smaller}
+
+Option 1: 
+
+::: incremental
+
+1. Change the `params` for each state and render the document
+2. Render the report
+3 Change the file name to match the parameter
+4. Repeat 50 times
+:::
+
+## Render all 50 reports {.smaller}
+
+One HTML report for each state.
+
+Option 2: 
+
+::: incremental
+
+1. Create a dataframe with columns that match `quarto::quarto_render()`
+  - `output_format`: file type (html, revealjs, pdf, docx, etc.)
+  - `output_file`: file name with extension
+  - `execute_params`: named list of parameters
+2. Map over each row: `purrr::pwalk(dataframe, quarto_render, quarto_render_args)`
+
+:::
+
+## Create the dataframe to iterate over
+
+```r
+library(readr)
+library(dplyr)
+library(quarto)
+
+polling_places <-
+  readr::read_csv(here::here("data", "geocoded_polling_places.csv"))
+
+polling_places_reports <-
+  polling_places |> 
+  dplyr::distinct(state) |>
+  dplyr::slice_head(n = 5) |> 
+  ...
+```
+
+## Subset and create `quarto_render()` parameters
+
+```r
+... |> 
+  dplyr::mutate(
+    output_format = "html",
+    output_file = paste0(
+      tolower(state),
+      "-polling-places.html"),
+    execute_params = purrr::map(
+      state,
+      \(state) list(state = state))) |> 
+  dplyr::select(output_file, execute_params)
+```
+
+## Map over each row
+
+```r
+purrr::pwalk(
+  .l = polling_places_reports,                     
+  .f = quarto::quarto_render,                   
+  input = here::here("02-iterate-report-parameters.qmd"), 
+  .progress = TRUE)
+```
+
+## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
+
+::: {.callout-note}
+Jadey Ryan is holding a workshop on parameterized report generation using Quarto with R-Ladies Abuja on February 21st!
+:::
+
+# Styling your reports
+
+## Add a Bootswatch theme {.smaller}
+
+- Quarto includes 25 themes from the [Bootswatch](https://bootswatch.com/) project
+- In the YAML, add an included theme using `theme` under `html`
+
+```yaml
+title: "Polling Places Report - {{< meta params.state >}}"
+author: "Isabella Velásquez"
+date: today
+format:
+  html:
+    theme:  united
+execute:
+  echo: false
+  message: false
+  warning: false
+params:
+  state: "Alabama"
+---
+```
+
+## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
+
+## Use extensions {.smaller}
+
+- Extensions are a powerful way to modify and extend Quarto
+- The [Awesome Quarto GitHub repo](https://github.com/mcanouil/awesome-quarto) has an extensive list of available extensions
+- For example, install and use the `sketchy quarto` extension
+
+```yaml
+---
+title: "Polling Places Report - {{< meta params.state >}}"
+author: "Isabella Velásquez"
+date: today
+format: sketchy-html
+execute:
+  echo: false
+  message: false
+  warning: false
+params:
+  state: "Alabama"
+---
+```
+
+## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
+
+## Use custom themes {.smaller}
+
+- Add an `.css` or `.scss` (Syntactically Awesome Style Sheets) file to your project
+- Include it in the YAML to use in your report
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```yaml
+---
+title: "Polling Places Report - {{< meta params.state >}}"
+author: "Isabella Velásquez"
+date: today
+format:
+  html:
+    theme: [default, custom.scss]
+execute:
+  echo: false
+  message: false
+  warning: false
+params:
+  state: "Alabama"
+---
+```
+:::
+
+
+::: {.column width="50%"}
+
+```css
+/*-- scss:defaults --*/
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz@9..144&family=Gilda+Display&display=swap');
+
+$font-family-sans-serif: "Fraunces", sans-serif;
+$presentation-heading-color: #446571;
+$code-block-font-size: 0.6em;
+$code-color: #5f5f5f;
+$presentation-h2-font-size: 1.4em;
+$link-color: #446571 !default;
+```
+
+:::
+::::
+
+## Add a title banner {.smaller}
+
+- Include a formatted title block at the start of the report
+- Add to the YAML using `title-block-banner`
+
+```yaml
+---
+title: "Polling Places Report - {{< meta params.state >}}"
+author: "Isabella Velásquez"
+date: today
+format:
+  html:
+    theme: [default, custom.scss]
+title-block-banner: images/flag.jpg
+execute:
+  echo: false
+  message: false
+  warning: false
+params:
+  state: "Alabama"
+---
+```
+
+## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
+
+# Thank you!
+
+## Thank you!
+
+I hope that you enjoyed getting started with reporting using Quarto!  Keep in touch!
+
+:::: {.columns}
+
+::: {.column width="60%"}
+
+
+:::
+
+::: {.column width="40%"}
+
+[{{< fa brands github >}} \@ivelasq](https://github.com/ivelasq)
+
+[{{< fa brands twitter >}} \@ivelasq3](https://twitter.com/ivelasq3)
+
+[{{< fa brands mastodon >}} \@ivelasq3](https://fosstodon.org/@ivelasq3)
+
+[{{< fa link >}} ivelasq.rbind.io](https://ivelasq.rbind.io)
+
+:::
+::::
+
+## Q&A {background-color="#F5F1E3" background-image="images/section.png"}   

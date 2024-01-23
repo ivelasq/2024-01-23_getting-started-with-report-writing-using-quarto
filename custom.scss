@@ -1,0 +1,17 @@
+/*-- scss:defaults --*/
+
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz@9..144&family=Gilda+Display&display=swap');
+
+$font-family-sans-serif: "Fraunces", sans-serif;
+$presentation-heading-color: #446571;
+$code-block-font-size: 0.6em;
+$code-color: #5f5f5f;
+$presentation-h2-font-size: 1.4em;
+$link-color: #446571 !default;
+
+/*-- scss:rules --*/
+
+.title {
+  opacity: 0 !important;
+}
+
