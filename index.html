@@ -441,9 +441,22 @@
 </section>
 <section id="what-we-will-create-today" class="slide level2">
 <h2>What we will create today</h2>
-<p><img data-src="images/reports.png"> ::: notes Today, we’ll create reports for polling locations in different states in the U.S. We will touch briefly on PDF report generation, iteration, and styling, but will focus mostly on the set up and execution of HTML reports. :::</p>
+
+<img data-src="images/reports.png" class="r-stretch"><aside class="notes">
+<p>Today, we’ll create reports for polling locations in different states in the U.S. We will touch briefly on PDF report generation, iteration, and styling, but will focus mostly on the set up and execution of HTML reports.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
-<section id="data" class="slide level2">
+<section id="data" class="slide level2 smaller">
 <h2>Data</h2>
 <p>We will be using data from the latest <a href="https://github.com/rfordatascience/tidytuesday">TidyTuesday</a> on polling places in the U.S.</p>
 <ul>
@@ -910,14 +923,15 @@
 </ol>
 </div>
 </section>
-<section id="edit-the-yaml-header" class="slide level2">
+<section id="edit-the-yaml-header" class="slide level2 smaller">
 <h2>Edit the YAML header</h2>
 <ul>
 <li>Include metadata such as author, subtitle, date as well as customization options like theme, font color, fig-width, etc.</li>
-<li>Here, we edit the title, author, publishing date, format, and code chunk options</li>
+<li>Here, we edit the title, author, and publishing date</li>
 <li><code>embed-resources: true</code> is very imporant to create self-contained HTML files</li>
+<li>We can add global chunk options with <code>execute</code></li>
 </ul>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href=""></a><span class="pp">---</span></span>
+<div class="sourceCode" id="cb2" data-code-line-numbers="|2-4|5-7|8-11"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href=""></a><span class="pp">---</span></span>
 <span id="cb2-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - Alabama"</span></span>
 <span id="cb2-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
 <span id="cb2-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
@@ -943,13 +957,13 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="add-a-setup-chunk" class="slide level2 smaller">
+<section id="add-a-setup-chunk" class="slide level2">
 <h2>Add a setup chunk</h2>
 <ul>
 <li>We can add chunk options on a per code-block basis by using <code>#|</code></li>
-<li>In this setup chunk, we can load all the packages that we need and the dataset that we will be using</li>
+<li>In this setup chunk, load all the packages and the dataset</li>
 </ul>
-<div class="sourceCode" id="cb3"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href=""></a><span class="in">```{r}</span></span>
+<div class="sourceCode" id="cb3" data-code-line-numbers="|1,13|2|3-11|12"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb3-1"><a href=""></a><span class="in">```{r}</span></span>
 <span id="cb3-2"><a href=""></a><span class="in">#| label: setup</span></span>
 <span id="cb3-3"><a href=""></a><span class="in">library(readr)</span></span>
 <span id="cb3-4"><a href=""></a><span class="in">library(dplyr)</span></span>
@@ -963,9 +977,9 @@
 <span id="cb3-12"><a href=""></a><span class="in">polling_places &lt;- read_csv(here::here("data", "geocoded_polling_places.csv"))</span></span>
 <span id="cb3-13"><a href=""></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
-<section id="create-a-template-report" class="slide level2 scrollable">
-<h2>Create a template report</h2>
-<p>Next, we can create a template of what we’d like the report to look like by adding:</p>
+<section id="create-a-rough-draft" class="slide level2 scrollable">
+<h2>Create a rough draft</h2>
+<p>Next, we can create a rough draft of the report by adding:</p>
 <div class="columns">
 <div class="column" style="width:50%;">
 <ul>
@@ -986,11 +1000,11 @@
 <section id="add-figure-with-captions-and-labels" class="slide level2 smaller">
 <h2>Add figure with captions and labels</h2>
 <ul>
+<li>Add <code>#| label: fig-</code> to labels for cross-referencing</li>
 <li>Use the chunk option <code>#| fig-cap:</code> to add a caption to a figure or table</li>
-<li>Add <code>#| label: fig-</code> to create cross-references</li>
 </ul>
-<div class="sourceCode" id="cb4"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href=""></a><span class="in">```{r}</span></span>
-<span id="cb4-2"><a href=""></a><span class="in">#| label: "fig-state-map"</span></span>
+<div class="sourceCode" id="cb4" data-code-line-numbers="|2|3|"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb4-1"><a href=""></a><span class="in">```{r}</span></span>
+<span id="cb4-2"><a href=""></a><span class="in">#| label: "fig-statemap"</span></span>
 <span id="cb4-3"><a href=""></a><span class="in">#| fig-cap: "Polling locations in the state"</span></span>
 <span id="cb4-4"><a href=""></a><span class="in">#| results: hide</span></span>
 <span id="cb4-5"><a href=""></a><span class="in">us_states &lt;- states(cb = TRUE, resolution = "20m") |&gt;</span></span>
@@ -1019,6 +1033,7 @@
 <div class="sourceCode" id="cb6"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb6-1"><a href=""></a><span class="ss">* </span>Total number of counties: **65**</span>
 <span id="cb6-2"><a href=""></a><span class="ss">* </span>Total number of polling places: **2075**</span>
 <span id="cb6-3"><a href=""></a><span class="ss">* </span>Election Day: **2020-11-03**</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
 <p>Inline code:</p>
 <div class="sourceCode" id="cb7"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb7-1"><a href=""></a><span class="ss">* </span>Total number of counties: **`{{r}} polling_places |&gt; filter(state == "Alabama") |&gt; distinct(county_name) |&gt; count()`**</span>
 <span id="cb7-2"><a href=""></a><span class="ss">* </span>Total number of polling places: **`{{r}} polling_places |&gt; filter(state == "Alabama") |&gt; count()`**</span>
@@ -1036,6 +1051,7 @@
           overflow: hidden!important;
           display:block!important;
       }</style></aside>
+</div>
 </section>
 <section id="add-footnotes" class="slide level2">
 <h2>Add footnotes</h2>
@@ -1048,9 +1064,7 @@
 </section>
 <section id="lets-see-it-in-rstudio-1" class="slide level2" data-font-family="Gilda+Display" data-background-color="#F5F1E3" data-background-image="images/section.png">
 <h2>Let’s see it in RStudio!</h2>
-<ul>
-<li>Please open <code>01-template-report.qmd</code></li>
-</ul>
+<p>Please open <code>01-rough-draft.qmd</code></p>
 </section></section>
 <section>
 <section id="iterating-your-reports" class="title-slide slide level1 agenda-slide center">
@@ -1088,7 +1102,7 @@
 <h2>Notice how much we’d have to repeat for each report</h2>
 <ul>
 <li>Manually creating tables for every county - 1881 counties!</li>
-<li>Manually creating report for every state in the country - 39 states!</li>
+<li>Manually creating report for every state in the dataset - 39 states!</li>
 </ul>
 
 <img data-src="https://media.tenor.com/lJ8UqR3kA7oAAAAj/mushroom-scream.gif" class="quarto-figure quarto-figure-center r-stretch"><aside class="notes">
@@ -1105,7 +1119,7 @@
           display:block!important;
       }</style></aside>
 </section>
-<section id="lets-automate-the-county-tables-using-knitrknit_child" class="slide level2">
+<section id="lets-automate-the-county-tables-using-knitrknit_child" class="slide level2 smaller">
 <h2>Let’s automate the county tables using <code>knitr::knit_child()</code></h2>
 <ul>
 <li><code>knitr::knit_child()</code> allows you to break your content into smaller, modular pieces</li>
@@ -1128,7 +1142,7 @@
 </section>
 <section id="set-up-the-main-document" class="slide level2">
 <h2>Set up the “main” document</h2>
-<div class="sourceCode" id="cb9"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href=""></a><span class="in">```{r}</span></span>
+<div class="sourceCode" id="cb9" data-code-line-numbers="|3|4-6|8|"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb9-1"><a href=""></a><span class="in">```{r}</span></span>
 <span id="cb9-2"><a href=""></a><span class="in">#| results: hide</span></span>
 <span id="cb9-3"><a href=""></a><span class="in">counties &lt;- polling_places |&gt; filter(state == "Alabama") |&gt; distinct(county_name) |&gt; pull()</span></span>
 <span id="cb9-4"><a href=""></a><span class="in">expanded_child &lt;- lapply(counties,</span></span>
@@ -1156,18 +1170,20 @@
 <section id="set-up-the-child-document" class="slide level2">
 <h2>Set up the “child” document</h2>
 <p>In another file called <code>_template.qmd</code>:</p>
-<div class="sourceCode" id="cb10"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href=""></a><span class="fu">### {{current_title}} COUNTY</span></span>
-<span id="cb10-2"><a href=""></a></span>
-<span id="cb10-3"><a href=""></a><span class="ss">* </span>Total Polling Places: <span class="in">`{{r}} polling_places |&gt; filter(state == params$state, county_name == "{{current_title}}") |&gt; count()`</span></span>
-<span id="cb10-4"><a href=""></a><span class="ss">* </span>Example Locations:</span>
-<span id="cb10-5"><a href=""></a></span>
-<span id="cb10-6"><a href=""></a><span class="in">```{r}</span></span>
-<span id="cb10-7"><a href=""></a><span class="in">polling_places |&gt; </span></span>
-<span id="cb10-8"><a href=""></a><span class="in">  filter(state == params$state, </span></span>
-<span id="cb10-9"><a href=""></a><span class="in">         county_name == "{{current_title}}") |&gt; </span></span>
-<span id="cb10-10"><a href=""></a><span class="in">  head(6) |&gt; </span></span>
-<span id="cb10-11"><a href=""></a><span class="in">  select(name, address.x) |&gt; </span></span>
-<span id="cb10-12"><a href=""></a><span class="in">  kbl(format = "markdown")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb10" data-code-line-numbers="|2|2-13"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href=""></a><span class="in">```{r}</span></span>
+<span id="cb10-2"><a href=""></a><span class="in">### {{current_title}} COUNTY</span></span>
+<span id="cb10-3"><a href=""></a></span>
+<span id="cb10-4"><a href=""></a><span class="in">* Total Polling Places: `{{r}} polling_places |&gt; filter(state == params$state, county_name == "{{current_title}}") |&gt; count()`</span></span>
+<span id="cb10-5"><a href=""></a><span class="in">* Example Locations:</span></span>
+<span id="cb10-6"><a href=""></a></span>
+<span id="cb10-7"><a href=""></a><span class="in">```{r}</span></span>
+<span id="cb10-8"><a href=""></a><span class="in">polling_places |&gt; </span></span>
+<span id="cb10-9"><a href=""></a><span class="in">  filter(state == params$state, </span></span>
+<span id="cb10-10"><a href=""></a><span class="in">         county_name == "{{current_title}}") |&gt; </span></span>
+<span id="cb10-11"><a href=""></a><span class="in">  head(6) |&gt; </span></span>
+<span id="cb10-12"><a href=""></a><span class="in">  select(name, address.x) |&gt; </span></span>
+<span id="cb10-13"><a href=""></a><span class="in">  kbl(format = "markdown")</span></span>
+<span id="cb10-14"><a href=""></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <aside class="notes">
 <p>The template begins with a title section that includes the county name obtained from the current_title variable. The polling_places data is filtered again to include only the specified state and county. The selected columns (name and address.x) are formatted as a Markdown table using the kbl function.</p>
 <style type="text/css">
@@ -1184,37 +1200,29 @@
 </section>
 <section id="lets-see-it-in-rstudio-2" class="slide level2" data-font-family="Gilda+Display" data-background-color="#F5F1E3" data-background-image="images/section.png">
 <h2>Let’s see it in RStudio!</h2>
-<ul>
-<li>Please open <code>02-iterate-report-knit-child.qmd</code></li>
-</ul>
+<p>Please open <code>02-iterate-report-knit-child.qmd</code></p>
 </section>
 <section id="lets-automate-the-state-reports-using-parameters" class="slide level2">
 <h2>Let’s automate the state reports using parameters</h2>
 <ul>
-<li>Parameters refer to variables or values that you can set at the beginning of your document or in the YAML header</li>
+<li>Parameters refer to variables or values that you can set in the YAML header</li>
 <li>These parameters can be used to specifying values that are used throughout the document</li>
+<li>Using parameters means that we can create copies of the same report for different values by just changing the parameter in the YAML</li>
 </ul>
 </section>
 <section id="lets-automate-the-state-reports-using-parameters-1" class="slide level2">
 <h2>Let’s automate the state reports using parameters</h2>
-<ul>
-<li>Using parameters means that we can create copies of the same report for different values by just changing the parameter in the YAML</li>
-</ul>
-<div class="quarto-figure quarto-figure-center">
-<figure>
-<p><img data-src="images/params.png" class="quarto-figure quarto-figure-center"></p>
-</figure>
-</div>
 
-<aside><div>
+<img data-src="images/params.png" class="quarto-figure quarto-figure-center r-stretch"><div class="footnote">
 <p>Source: <a href="https://jadeyryan.quarto.pub/rladies-abuja-quarto-params/materials.html">Parameterized Reporting with Quarto</a> by Jadey Ryan</p>
-</div></aside></section>
+</div>
+</section>
 <section id="edit-the-yaml-header-1" class="slide level2 smaller">
 <h2>Edit the YAML header</h2>
 <ul>
 <li>Use <code>params</code> in the key:value pair</li>
 </ul>
-<div class="sourceCode" id="cb11"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb11-1"><a href=""></a><span class="pp">---</span></span>
+<div class="sourceCode" id="cb11" data-code-line-numbers="|12-13|"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb11-1"><a href=""></a><span class="pp">---</span></span>
 <span id="cb11-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - Alabama"</span></span>
 <span id="cb11-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
 <span id="cb11-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
@@ -1232,9 +1240,9 @@
 <section id="replace-hard-coded-variables-with-the-params-variable" class="slide level2">
 <h2>Replace hard-coded variables with the params variable</h2>
 <ul>
-<li>Adding parameters in the YAML require inline code</li>
+<li>Use the <code>params$state</code> notation anytime there’s a hardcoded value</li>
 </ul>
-<div class="sourceCode" id="cb12"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb12-1"><a href=""></a><span class="pp">---</span></span>
+<div class="sourceCode" id="cb12" data-code-line-numbers="|2|"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb12-1"><a href=""></a><span class="pp">---</span></span>
 <span id="cb12-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - `{{r}} params$state``"</span></span>
 <span id="cb12-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
 <span id="cb12-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
@@ -1252,9 +1260,9 @@
 <section id="replace-hard-coded-variables-with-the-params-variable-1" class="slide level2 smaller">
 <h2>Replace hard-coded variables with the params variable</h2>
 <ul>
-<li>Within the document, use the <code>params$state</code> notation</li>
+<li>Use the <code>params$state</code> notation anytime there’s a hardcoded value</li>
 </ul>
-<div class="sourceCode" id="cb13"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href=""></a><span class="in">```{r}</span></span>
+<div class="sourceCode" id="cb13" data-code-line-numbers="|2,4|"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb13-1"><a href=""></a><span class="in">```{r}</span></span>
 <span id="cb13-2"><a href=""></a><span class="in">ggplot(us_states |&gt; filter(NAME == params$state)) +</span></span>
 <span id="cb13-3"><a href=""></a><span class="in">  geom_sf() +</span></span>
 <span id="cb13-4"><a href=""></a><span class="in">  geom_point(data = polling_places |&gt; filter(state == params$state),</span></span>
@@ -1281,7 +1289,7 @@
 <h2>Edit <code>params</code> in the YAML to rerender the report for different states</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="sourceCode" id="cb14"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb14-1"><a href=""></a><span class="pp">---</span></span>
+<div class="sourceCode" id="cb14" data-code-line-numbers="|13"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb14-1"><a href=""></a><span class="pp">---</span></span>
 <span id="cb14-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
 <span id="cb14-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
 <span id="cb14-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
@@ -1296,7 +1304,7 @@
 <span id="cb14-13"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
 <span id="cb14-14"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column" style="width:50%;">
-<div class="sourceCode" id="cb15"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb15-1"><a href=""></a><span class="pp">---</span></span>
+<div class="sourceCode" id="cb15" data-code-line-numbers="|13"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb15-1"><a href=""></a><span class="pp">---</span></span>
 <span id="cb15-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
 <span id="cb15-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
 <span id="cb15-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
@@ -1322,32 +1330,34 @@
 <li class="fragment">The quarto R package: <code>quarto::quarto_render()</code></li>
 </ol>
 </div>
-<div class="sourceCode" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href=""></a>quarto<span class="sc">::</span><span class="fu">quarto_render</span>(</span>
-<span id="cb16-2"><a href=""></a>  <span class="at">input =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"polling-places-report.qmd"</span>),</span>
-<span id="cb16-3"><a href=""></a>  <span class="at">execute_params =</span> <span class="fu">list</span>(<span class="at">state =</span> <span class="st">"California"</span>)</span>
-<span id="cb16-4"><a href=""></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="fragment">
+<div class="sourceCode" id="cb16" data-code-line-numbers="|2,5|3|4|"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb16-1"><a href=""></a><span class="in">```{r}</span></span>
+<span id="cb16-2"><a href=""></a><span class="in">quarto::quarto_render(</span></span>
+<span id="cb16-3"><a href=""></a><span class="in">  input = here::here("polling-places-report.qmd"),</span></span>
+<span id="cb16-4"><a href=""></a><span class="in">  execute_params = list(state = "California")</span></span>
+<span id="cb16-5"><a href=""></a><span class="in">)</span></span>
+<span id="cb16-6"><a href=""></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
 </section>
 <section id="lets-see-it-in-rstudio-3" class="slide level2" data-background-color="#F5F1E3" data-background-image="images/section.png">
 <h2>Let’s see it in RStudio!</h2>
-<ul>
-<li>Please open <code>03-iterate-report-parameters.qmd</code></li>
-</ul>
+<p>Please open <code>03-iterate-report-parameters.qmd</code></p>
 </section>
-<section id="render-all-39-reports" class="slide level2 smaller">
+<section id="render-all-39-reports" class="slide level2">
 <h2>Render all 39 reports</h2>
 <p>Option 1:</p>
 <div>
 <ol type="1">
 <li class="fragment">Change the <code>params</code> for each state and render the document</li>
-<li class="fragment">Render the report 3 Change the file name to match the parameter</li>
+<li class="fragment">Render the report</li>
+<li class="fragment">Change the file name to match the parameter</li>
 <li class="fragment">Repeat 39 times</li>
 </ol>
 </div>
 </section>
-<section id="render-all-39-reports-1" class="slide level2 smaller">
+<section id="render-all-39-reports-1" class="slide level2">
 <h2>Render all 39 reports</h2>
 <p>One HTML report for each state.</p>
-<p>Option 2:</p>
 <div>
 <ol type="1">
 <li class="fragment">Create a dataframe with columns that match <code>quarto::quarto_render()</code></li>
@@ -1364,46 +1374,42 @@
 </section>
 <section id="create-the-dataframe-to-iterate-over" class="slide level2">
 <h2>Create the dataframe to iterate over</h2>
-<div class="sourceCode" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href=""></a><span class="fu">library</span>(readr)</span>
-<span id="cb17-2"><a href=""></a><span class="fu">library</span>(dplyr)</span>
-<span id="cb17-3"><a href=""></a><span class="fu">library</span>(quarto)</span>
-<span id="cb17-4"><a href=""></a></span>
-<span id="cb17-5"><a href=""></a>polling_places <span class="ot">&lt;-</span></span>
-<span id="cb17-6"><a href=""></a>  readr<span class="sc">::</span><span class="fu">read_csv</span>(here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"data"</span>, <span class="st">"geocoded_polling_places.csv"</span>))</span>
-<span id="cb17-7"><a href=""></a></span>
-<span id="cb17-8"><a href=""></a>polling_places_reports <span class="ot">&lt;-</span></span>
-<span id="cb17-9"><a href=""></a>  polling_places <span class="sc">|&gt;</span> </span>
-<span id="cb17-10"><a href=""></a>  dplyr<span class="sc">::</span><span class="fu">distinct</span>(state) <span class="sc">|&gt;</span></span>
-<span id="cb17-11"><a href=""></a>  dplyr<span class="sc">::</span><span class="fu">slice_head</span>(<span class="at">n =</span> <span class="dv">5</span>) <span class="sc">|&gt;</span> </span>
-<span id="cb17-12"><a href=""></a>  ...</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</section>
-<section id="subset-and-create-quarto_render-parameters" class="slide level2">
-<h2>Subset and create <code>quarto_render()</code> parameters</h2>
-<div class="sourceCode" id="cb18"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href=""></a>... <span class="sc">|&gt;</span> </span>
-<span id="cb18-2"><a href=""></a>  dplyr<span class="sc">::</span><span class="fu">mutate</span>(</span>
-<span id="cb18-3"><a href=""></a>    <span class="at">output_format =</span> <span class="st">"html"</span>,</span>
-<span id="cb18-4"><a href=""></a>    <span class="at">output_file =</span> <span class="fu">paste0</span>(</span>
-<span id="cb18-5"><a href=""></a>      <span class="fu">tolower</span>(state),</span>
-<span id="cb18-6"><a href=""></a>      <span class="st">"-polling-places.html"</span>),</span>
-<span id="cb18-7"><a href=""></a>    <span class="at">execute_params =</span> purrr<span class="sc">::</span><span class="fu">map</span>(</span>
-<span id="cb18-8"><a href=""></a>      state,</span>
-<span id="cb18-9"><a href=""></a>      \(state) <span class="fu">list</span>(<span class="at">state =</span> state))) <span class="sc">|&gt;</span> </span>
-<span id="cb18-10"><a href=""></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(output_file, execute_params)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb17" data-code-line-numbers="|2-4|6-7|9-11|12|13-20|21"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb17-1"><a href=""></a><span class="in">```{r}</span></span>
+<span id="cb17-2"><a href=""></a><span class="in">library(readr)</span></span>
+<span id="cb17-3"><a href=""></a><span class="in">library(dplyr)</span></span>
+<span id="cb17-4"><a href=""></a><span class="in">library(quarto)</span></span>
+<span id="cb17-5"><a href=""></a></span>
+<span id="cb17-6"><a href=""></a><span class="in">polling_places &lt;-</span></span>
+<span id="cb17-7"><a href=""></a><span class="in">  readr::read_csv(here::here("data", "geocoded_polling_places.csv"))</span></span>
+<span id="cb17-8"><a href=""></a></span>
+<span id="cb17-9"><a href=""></a><span class="in">polling_places_reports &lt;-</span></span>
+<span id="cb17-10"><a href=""></a><span class="in">  polling_places |&gt; </span></span>
+<span id="cb17-11"><a href=""></a><span class="in">  dplyr::distinct(state) |&gt;</span></span>
+<span id="cb17-12"><a href=""></a><span class="in">  dplyr::slice_head(n = 5) |&gt; </span></span>
+<span id="cb17-13"><a href=""></a><span class="in">  dplyr::mutate(</span></span>
+<span id="cb17-14"><a href=""></a><span class="in">    output_format = "html",</span></span>
+<span id="cb17-15"><a href=""></a><span class="in">    output_file = paste0(</span></span>
+<span id="cb17-16"><a href=""></a><span class="in">      tolower(state),</span></span>
+<span id="cb17-17"><a href=""></a><span class="in">      "-polling-places.html"),</span></span>
+<span id="cb17-18"><a href=""></a><span class="in">    execute_params = purrr::map(</span></span>
+<span id="cb17-19"><a href=""></a><span class="in">      state,</span></span>
+<span id="cb17-20"><a href=""></a><span class="in">      \(state) list(state = state))) |&gt; </span></span>
+<span id="cb17-21"><a href=""></a><span class="in">  dplyr::select(output_file, execute_params)</span></span>
+<span id="cb17-22"><a href=""></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="map-over-each-row" class="slide level2">
 <h2>Map over each row</h2>
-<div class="sourceCode" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href=""></a>purrr<span class="sc">::</span><span class="fu">pwalk</span>(</span>
-<span id="cb19-2"><a href=""></a>  <span class="at">.l =</span> polling_places_reports,                     </span>
-<span id="cb19-3"><a href=""></a>  <span class="at">.f =</span> quarto<span class="sc">::</span>quarto_render,                   </span>
-<span id="cb19-4"><a href=""></a>  <span class="at">input =</span> here<span class="sc">::</span><span class="fu">here</span>(<span class="st">"02-iterate-report-parameters.qmd"</span>), </span>
-<span id="cb19-5"><a href=""></a>  <span class="at">.progress =</span> <span class="cn">TRUE</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18" data-code-line-numbers="|3|4|5|"><pre class="sourceCode numberSource markdown number-lines code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href=""></a><span class="in">```{r}</span></span>
+<span id="cb18-2"><a href=""></a><span class="in">purrr::pwalk(</span></span>
+<span id="cb18-3"><a href=""></a><span class="in">  .l = polling_places_reports,                     </span></span>
+<span id="cb18-4"><a href=""></a><span class="in">  .f = quarto::quarto_render,                   </span></span>
+<span id="cb18-5"><a href=""></a><span class="in">  input = here::here("03-iterate-report-parameters.qmd"), </span></span>
+<span id="cb18-6"><a href=""></a><span class="in">  .progress = TRUE)</span></span>
+<span id="cb18-7"><a href=""></a><span class="in">```</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="lets-see-it-in-rstudio-4" class="slide level2" data-background-color="#F5F1E3" data-background-image="images/section.png">
 <h2>Let’s see it in RStudio!</h2>
-<ul>
-<li>Please open <code>03-iterate-report-parameters.qmd</code></li>
-<li>Also open <code>03-parameters-render.R</code></li>
-</ul>
+<p>Please open <code>03-iterate-report-parameters.qmd</code> - Also open <code>_parameters-render.R</code></p>
 <div class="callout callout-note callout-titled callout-style-default">
 <div class="callout-body">
 <div class="callout-title">
@@ -1456,26 +1462,24 @@
 <li>Quarto includes 25 themes from the <a href="https://bootswatch.com/">Bootswatch</a> project</li>
 <li>In the YAML, add an included theme using <code>theme</code> under <code>html</code></li>
 </ul>
-<div class="sourceCode" id="cb20"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb20-1"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
-<span id="cb20-2"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
-<span id="cb20-3"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
-<span id="cb20-4"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
-<span id="cb20-5"><a href=""></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
-<span id="cb20-6"><a href=""></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb20-7"><a href=""></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at">  united</span></span>
-<span id="cb20-8"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
-<span id="cb20-9"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb20-10"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb20-11"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb20-12"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
-<span id="cb20-13"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
-<span id="cb20-14"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb19" data-code-line-numbers="|7"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb19-1"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
+<span id="cb19-2"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
+<span id="cb19-3"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
+<span id="cb19-4"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb19-5"><a href=""></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb19-6"><a href=""></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb19-7"><a href=""></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at">  united</span></span>
+<span id="cb19-8"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb19-9"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb19-10"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb19-11"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb19-12"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
+<span id="cb19-13"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
+<span id="cb19-14"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="lets-see-it-in-rstudio-5" class="slide level2" data-background-color="#F5F1E3" data-background-image="images/section.png">
 <h2>Let’s see it in RStudio!</h2>
-<ul>
-<li>Please open <code>04-united-theme.qmd</code></li>
-</ul>
+<p>Please open <code>04-united-theme.qmd</code></p>
 </section>
 <section id="use-extensions" class="slide level2 smaller">
 <h2>Use extensions</h2>
@@ -1484,26 +1488,24 @@
 <li>The <a href="https://github.com/mcanouil/awesome-quarto">Awesome Quarto GitHub repo</a> has an extensive list of available extensions</li>
 <li>For example, install and use the <code>sketchy quarto</code> extension</li>
 </ul>
-<div class="sourceCode" id="cb21"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb21-1"><a href=""></a><span class="pp">---</span></span>
-<span id="cb21-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
-<span id="cb21-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
-<span id="cb21-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
-<span id="cb21-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
-<span id="cb21-6"><a href=""></a><span class="at">  </span><span class="fu">sketchy-html</span><span class="kw">:</span></span>
-<span id="cb21-7"><a href=""></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb21-8"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
-<span id="cb21-9"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb21-10"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb21-11"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb21-12"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
-<span id="cb21-13"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
-<span id="cb21-14"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb20" data-code-line-numbers="|6"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb20-1"><a href=""></a><span class="pp">---</span></span>
+<span id="cb20-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
+<span id="cb20-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
+<span id="cb20-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
+<span id="cb20-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb20-6"><a href=""></a><span class="at">  </span><span class="fu">sketchy-html</span><span class="kw">:</span></span>
+<span id="cb20-7"><a href=""></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb20-8"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb20-9"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb20-10"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb20-11"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb20-12"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
+<span id="cb20-13"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
+<span id="cb20-14"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="lets-see-it-in-rstudio-6" class="slide level2" data-background-color="#F5F1E3" data-background-image="images/section.png">
 <h2>Let’s see it in RStudio!</h2>
-<ul>
-<li>Please open <code>05-sketchy-theme.qmd</code></li>
-</ul>
+<p>Please open <code>05-sketchy-theme.qmd</code></p>
 </section>
 <section id="use-custom-themes" class="slide level2 smaller">
 <h2>Use custom themes</h2>
@@ -1513,32 +1515,32 @@
 </ul>
 <div class="columns">
 <div class="column" style="width:50%;">
-<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb22-1"><a href=""></a><span class="pp">---</span></span>
-<span id="cb22-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
-<span id="cb22-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
-<span id="cb22-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
-<span id="cb22-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
-<span id="cb22-6"><a href=""></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
-<span id="cb22-7"><a href=""></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb22-8"><a href=""></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">default</span><span class="kw">,</span><span class="at"> custom.scss</span><span class="kw">]</span></span>
-<span id="cb22-9"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
-<span id="cb22-10"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb22-11"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb22-12"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb22-13"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
-<span id="cb22-14"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
-<span id="cb22-15"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb21" data-code-line-numbers="|8"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb21-1"><a href=""></a><span class="pp">---</span></span>
+<span id="cb21-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
+<span id="cb21-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
+<span id="cb21-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
+<span id="cb21-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb21-6"><a href=""></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb21-7"><a href=""></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb21-8"><a href=""></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">default</span><span class="kw">,</span><span class="at"> custom.scss</span><span class="kw">]</span></span>
+<span id="cb21-9"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb21-10"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb21-11"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb21-12"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb21-13"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
+<span id="cb21-14"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
+<span id="cb21-15"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column" style="width:50%;">
-<div class="sourceCode" id="cb23"><pre class="sourceCode numberSource css number-lines code-with-copy"><code class="sourceCode css"><span id="cb23-1"><a href=""></a><span class="co">/*-- scss:defaults --*/</span></span>
-<span id="cb23-2"><a href=""></a></span>
-<span id="cb23-3"><a href=""></a><span class="im">@import</span> <span class="fu">url(</span><span class="st">'https://fonts.googleapis.com/css2?family=Fraunces:opsz@9..144&amp;family=Gilda+Display&amp;display=swap'</span><span class="fu">)</span><span class="op">;</span></span>
-<span id="cb23-4"><a href=""></a></span>
-<span id="cb23-5"><a href=""></a>$font-family-sans-serif<span class="in">:</span> "Fraunces"<span class="op">,</span> sans-serif;</span>
-<span id="cb23-6"><a href=""></a>$presentation-heading-color<span class="in">:</span> <span class="pp">#446571</span>;</span>
-<span id="cb23-7"><a href=""></a>$code-block-font-size<span class="in">:</span> 0<span class="fu">.6em</span>;</span>
-<span id="cb23-8"><a href=""></a>$code-color<span class="in">:</span> <span class="pp">#5f5f5f</span>;</span>
-<span id="cb23-9"><a href=""></a>$presentation-h2-font-size<span class="in">:</span> 1<span class="fu">.4em</span>;</span>
-<span id="cb23-10"><a href=""></a>$link-color<span class="in">:</span> <span class="pp">#446571</span> !default;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb22"><pre class="sourceCode numberSource css number-lines code-with-copy"><code class="sourceCode css"><span id="cb22-1"><a href=""></a><span class="co">/*-- scss:defaults --*/</span></span>
+<span id="cb22-2"><a href=""></a></span>
+<span id="cb22-3"><a href=""></a><span class="im">@import</span> <span class="fu">url(</span><span class="st">'https://fonts.googleapis.com/css2?family=Fraunces:opsz@9..144&amp;family=Gilda+Display&amp;display=swap'</span><span class="fu">)</span><span class="op">;</span></span>
+<span id="cb22-4"><a href=""></a></span>
+<span id="cb22-5"><a href=""></a>$font-family-sans-serif<span class="in">:</span> "Fraunces"<span class="op">,</span> sans-serif;</span>
+<span id="cb22-6"><a href=""></a>$presentation-heading-color<span class="in">:</span> <span class="pp">#446571</span>;</span>
+<span id="cb22-7"><a href=""></a>$code-block-font-size<span class="in">:</span> 0<span class="fu">.6em</span>;</span>
+<span id="cb22-8"><a href=""></a>$code-color<span class="in">:</span> <span class="pp">#5f5f5f</span>;</span>
+<span id="cb22-9"><a href=""></a>$presentation-h2-font-size<span class="in">:</span> 1<span class="fu">.4em</span>;</span>
+<span id="cb22-10"><a href=""></a>$link-color<span class="in">:</span> <span class="pp">#446571</span> !default;</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -1548,28 +1550,26 @@
 <li>Include a formatted title block at the start of the report</li>
 <li>Add to the YAML using <code>title-block-banner</code></li>
 </ul>
-<div class="sourceCode" id="cb24"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb24-1"><a href=""></a><span class="pp">---</span></span>
-<span id="cb24-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
-<span id="cb24-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
-<span id="cb24-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
-<span id="cb24-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
-<span id="cb24-6"><a href=""></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
-<span id="cb24-7"><a href=""></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
-<span id="cb24-8"><a href=""></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">default</span><span class="kw">,</span><span class="at"> custom.scss</span><span class="kw">]</span></span>
-<span id="cb24-9"><a href=""></a><span class="fu">title-block-banner</span><span class="kw">:</span><span class="at"> images/flag.jpg</span></span>
-<span id="cb24-10"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
-<span id="cb24-11"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb24-12"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb24-13"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb24-14"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
-<span id="cb24-15"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
-<span id="cb24-16"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb23" data-code-line-numbers="|9"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb23-1"><a href=""></a><span class="pp">---</span></span>
+<span id="cb23-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
+<span id="cb23-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
+<span id="cb23-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
+<span id="cb23-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb23-6"><a href=""></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb23-7"><a href=""></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb23-8"><a href=""></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">default</span><span class="kw">,</span><span class="at"> custom.scss</span><span class="kw">]</span></span>
+<span id="cb23-9"><a href=""></a><span class="fu">title-block-banner</span><span class="kw">:</span><span class="at"> images/flag.jpg</span></span>
+<span id="cb23-10"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb23-11"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb23-12"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb23-13"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb23-14"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
+<span id="cb23-15"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
+<span id="cb23-16"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="lets-see-it-in-rstudio-7" class="slide level2" data-background-color="#F5F1E3" data-background-image="images/section.png">
 <h2>Let’s see it in RStudio!</h2>
-<ul>
-<li>Please open <code>06-custom-theme.qmd</code></li>
-</ul>
+<p>Please open <code>06-custom-theme.qmd</code></p>
 </section></section>
 <section>
 <section id="rendering-other-formats" class="title-slide slide level1 agenda-slide center">
@@ -1603,34 +1603,32 @@
 </ol>
 </div>
 </section>
-<section id="add-other-formats-to-the-yaml" class="slide level2">
+<section id="add-other-formats-to-the-yaml" class="slide level2 smaller">
 <h2>Add other formats to the YAML</h2>
 <ul>
 <li>Quarto can render multiple formats from the same document</li>
 <li>For example, add <code>pdf</code> to the YAML to render both HTML and PDF versions of the report</li>
 </ul>
-<div class="sourceCode" id="cb25"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb25-1"><a href=""></a><span class="pp">---</span></span>
-<span id="cb25-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
-<span id="cb25-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
-<span id="cb25-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
-<span id="cb25-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span></span>
-<span id="cb25-6"><a href=""></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
-<span id="cb25-7"><a href=""></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">default</span><span class="kw">,</span><span class="at"> custom.scss</span><span class="kw">]</span></span>
-<span id="cb25-8"><a href=""></a><span class="at">  </span><span class="fu">pdf</span><span class="kw">:</span><span class="at"> default</span></span>
-<span id="cb25-9"><a href=""></a><span class="fu">title-block-banner</span><span class="kw">:</span><span class="at"> images/flag.jpg</span></span>
-<span id="cb25-10"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
-<span id="cb25-11"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb25-12"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb25-13"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb25-14"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
-<span id="cb25-15"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"California"</span></span>
-<span id="cb25-16"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb24" data-code-line-numbers="|8"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb24-1"><a href=""></a><span class="pp">---</span></span>
+<span id="cb24-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
+<span id="cb24-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
+<span id="cb24-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
+<span id="cb24-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb24-6"><a href=""></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb24-7"><a href=""></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">default</span><span class="kw">,</span><span class="at"> custom.scss</span><span class="kw">]</span></span>
+<span id="cb24-8"><a href=""></a><span class="at">  </span><span class="fu">pdf</span><span class="kw">:</span><span class="at"> default</span></span>
+<span id="cb24-9"><a href=""></a><span class="fu">title-block-banner</span><span class="kw">:</span><span class="at"> images/flag.jpg</span></span>
+<span id="cb24-10"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb24-11"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb24-12"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb24-13"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb24-14"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
+<span id="cb24-15"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"California"</span></span>
+<span id="cb24-16"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="lets-see-it-in-rstudio-8" class="slide level2" data-background-color="#F5F1E3" data-background-image="images/section.png">
 <h2>Let’s see it in RStudio!</h2>
-<ul>
-<li>Please open <code>07-multiple-formats.qmd</code></li>
-</ul>
+<p>Please open <code>07-multiple-formats.qmd</code></p>
 </section></section>
 <section>
 <section id="thank-you" class="title-slide slide level1 agenda-slide center">
@@ -1666,17 +1664,13 @@
 </section>
 <section id="thank-you-1" class="slide level2">
 <h2>Thank you!</h2>
-<p>I hope that you enjoyed getting started with reporting using Quarto! Keep in touch!</p>
-<div class="columns">
-<div class="column" style="width:60%;">
-
-</div><div class="column" style="width:40%;">
+<p>I hope that you enjoyed getting started with reporting using Quarto! I’d love to see what you create:</p>
+<center>
 <p><a href="https://github.com/ivelasq"><i class="fa-brands fa-github" aria-label="github"></i> @ivelasq</a></p>
 <p><a href="https://twitter.com/ivelasq3"><i class="fa-brands fa-twitter" aria-label="twitter"></i> @ivelasq3</a></p>
 <p><a href="https://fosstodon.org/@ivelasq3"><i class="fa-brands fa-mastodon" aria-label="mastodon"></i> @ivelasq3</a></p>
 <p><a href="https://ivelasq.rbind.io"><i class="fa-solid fa-link" aria-label="link"></i> ivelasq.rbind.io</a></p>
-</div>
-</div>
+</center>
 </section>
 <section id="qa" class="slide level2" data-background-color="#F5F1E3" data-background-image="images/section.png">
 <h2>Q&amp;A</h2>

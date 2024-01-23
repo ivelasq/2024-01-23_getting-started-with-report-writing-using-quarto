@@ -41,11 +41,14 @@ Welcome to "Getting started with report writing using Quarto"! You have two opti
 ### Native pipe
 
 - [Understanding the native R pipe |>](https://ivelasq.rbind.io/blog/understanding-the-r-pipe/)
+- [Differences between the base R and magrittr pipes](https://www.tidyverse.org/blog/2023/04/base-vs-magrittr-pipe/)
 
 ### Quarto
 
 - [Quarto.org](https://www.quarto.org)
 - [Awesome Quarto GitHub Repo](https://github.com/mcanouil/awesome-quarto)
+- [Intro to Quarto](https://www.youtube.com/watch?v=y6_xMIBKuP4) at R-Ladies St. Louis
+- [Chunk options and package options](https://yihui.org/knitr/options/)
 
 ### For R Markdown Users
 

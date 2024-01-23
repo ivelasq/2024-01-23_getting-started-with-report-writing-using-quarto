@@ -293,10 +293,11 @@ In RStudio, you can use the Render button to render the file, or take it through
 ## Edit the YAML header {.smaller}
 
 - Include metadata such as author, subtitle, date as well as customization options like theme, font color, fig-width, etc.
-- Here, we edit the title, author, publishing date, format, and code chunk options
+- Here, we edit the title, author, and publishing date
 - `embed-resources: true` is very imporant to create self-contained HTML files
+- We can add global chunk options with `execute`
 
-```yaml
+```{.yaml code-line-numbers="|2-4|5-7|8-11"}
 ---
 title: "Polling Places Report - Alabama"
 author: "Isabella Velásquez"
@@ -315,11 +316,12 @@ execute:
 `embed-resources: true` produces a standalone HTML file with no external dependencies, using data: URIs to incorporate the contents of linked scripts, stylesheets, images, and videos. The resulting file should be “self-contained,” in the sense that it needs no external files and no net access to be displayed properly by a browser.
 :::
 
-## Add a setup chunk {.smaller}
+## Add a setup chunk
 
 - We can add chunk options on a per code-block basis by using `#|`
-- In this setup chunk, we can load all the packages that we need and the dataset that we will be using
+- In this setup chunk, load all the packages and the dataset
 
+````{.markdown code-line-numbers=|1,13|2|3-11|12}
 ```{{r}}
 #| label: setup
 library(readr)
@@ -333,10 +335,11 @@ library(purrr)
 library(kableExtra)
 polling_places <- read_csv(here::here("data", "geocoded_polling_places.csv"))
 ```
+````
 
-## Create a template report {.scrollable}
+## Create a rough draft {.scrollable}
 
-Next, we can create a template of what we'd like the report to look like by adding:
+Next, we can create a rough draft of the report by adding:
 
 :::: {.columns}
 
@@ -362,11 +365,12 @@ Next, we can create a template of what we'd like the report to look like by addi
 
 ## Add figure with captions and labels {.smaller}
 
+- Add `#| label: fig-` to labels for cross-referencing
 - Use the chunk option `#| fig-cap:` to add a caption to a figure or table
-- Add `#| label: fig-` to create cross-references
 
+````{.markdown code-line-numbers=|2|3|}
 ```{{r}}
-#| label: "fig-state-map"
+#| label: "fig-statemap"
 #| fig-cap: "Polling locations in the state"
 #| results: hide
 us_states <- states(cb = TRUE, resolution = "20m") |>
@@ -380,7 +384,7 @@ ggplot(us_states |> filter(NAME == "Alabama")) +
              alpha = 0.4) +
   theme_void() 
 ```
-
+````
 - Reference the figure in other locations using `\@fig-label`.
 
 ```markdown
@@ -399,6 +403,8 @@ Manual:
 * Total number of polling places: **2075**
 * Election Day: **2020-11-03**
 ```
+
+. . .
 
 Inline code:
 
@@ -424,14 +430,14 @@ In this report, we present a detailed overview of polling places in various coun
 
 ## Let's see it in RStudio! {font-family="Gilda+Display" background-color="#F5F1E3" background-image="images/section.png"}
 
-Please open `01-template-report.qmd`
+Please open `01-rough-draft.qmd`
 
 # Iterating your reports
 
 ## Notice how much we'd have to repeat for each report
 
 - Manually creating tables for every county - 1881 counties!
-- Manually creating report for every state in the country - 39 states!
+- Manually creating report for every state in the dataset - 39 states!
 
 ![](https://media.tenor.com/lJ8UqR3kA7oAAAAj/mushroom-scream.gif){fig-align="center"}
 
@@ -451,7 +457,7 @@ In Quarto, when you have a master document that includes or "knits" other docume
 
 ## Set up the "main" document
 
-````markdown
+````{.markdown code-line-numbers=|3|4-6|8|}
 ```{{r}}
 #| results: hide
 counties <- polling_places |> filter(state == "Alabama") |> distinct(county_name) |> pull()
@@ -473,7 +479,8 @@ This code filters data for Alabama, extracts unique county names, generates chil
 
 In another file called `_template.qmd`:
 
-```markdown
+````{.markdown code-line-numbers=|2|2-13}
+```{{r}}
 ### {{current_title}} COUNTY
 
 * Total Polling Places: `{{r}} polling_places |> filter(state == params$state, county_name == "{{current_title}}") |> count()`
@@ -487,6 +494,7 @@ polling_places |>
   select(name, address.x) |> 
   kbl(format = "markdown")
 ```
+````
 
 ::: notes
 The template begins with a title section that includes the county name obtained from the current_title variable. The polling_places data is filtered again to include only the specified state and county. The selected columns (name and address.x) are formatted as a Markdown table using the kbl function.
@@ -498,16 +506,15 @@ Please open `02-iterate-report-knit-child.qmd`
 
 ## Let's automate the state reports using parameters
 
-- Parameters refer to variables or values that you can set at the beginning of your document or in the YAML header
+- Parameters refer to variables or values that you can set in the YAML header
 - These parameters can be used to specifying values that are used throughout the document
+- Using parameters means that we can create copies of the same report for different values by just changing the parameter in the YAML
 
 ## Let's automate the state reports using parameters
 
-- Using parameters means that we can create copies of the same report for different values by just changing the parameter in the YAML
-
 ![](images/params.png){fig-align="center"}
 
-::: aside
+::: footnote
 Source: [Parameterized Reporting with Quarto](https://jadeyryan.quarto.pub/rladies-abuja-quarto-params/materials.html) by Jadey Ryan
 :::
 
@@ -515,7 +522,7 @@ Source: [Parameterized Reporting with Quarto](https://jadeyryan.quarto.pub/rladi
 
 - Use `params` in the key:value pair
 
-```yaml
+```{.yaml code-line-numbers=|12-13|}
 ---
 title: "Polling Places Report - Alabama"
 author: "Isabella Velásquez"
@@ -534,9 +541,9 @@ params:
 
 ## Replace hard-coded variables with the params variable
 
-- Adding parameters in the YAML require inline code
+- Use the `params$state` notation anytime there's a hardcoded value
 
-```yaml
+```{.yaml code-line-numbers=|2|}
 ---
 title: "Polling Places Report - `{{r}} params$state``"
 author: "Isabella Velásquez"
@@ -555,8 +562,9 @@ params:
 
 ## Replace hard-coded variables with the params variable {.smaller}
 
-- Within the document, use the `params$state` notation
+- Use the `params$state` notation anytime there's a hardcoded value
 
+````{.markdown code-line-numbers=|2,4|}
 ```{{r}}
 ggplot(us_states |> filter(NAME == params$state)) +
   geom_sf() +
@@ -566,6 +574,7 @@ ggplot(us_states |> filter(NAME == params$state)) +
              alpha = 0.4) +
   theme_void() 
 ```
+````
 
 ::: {.callout-note}
 This includes our inline code and child `_template.qmd` document!
@@ -577,7 +586,7 @@ This includes our inline code and child `_template.qmd` document!
 
 ::: {.column width="50%"}
 
-```yaml
+```{.yaml code-line-numbers=|13}
 ---
 title: "Polling Places Report - {{< meta params.state >}}"
 author: "Isabella Velásquez"
@@ -597,7 +606,7 @@ params:
 
 ::: {.column width="50%"}
 
-```yaml
+```{.yaml code-line-numbers=|13}
 ---
 title: "Polling Places Report - {{< meta params.state >}}"
 author: "Isabella Velásquez"
@@ -629,12 +638,14 @@ params:
 
 . . .
 
-```r
+````{.markdown code-line-numbers=|2,5|3|4|}
+```{{r}}
 quarto::quarto_render(
   input = here::here("polling-places-report.qmd"),
   execute_params = list(state = "California")
 )
 ```
+````
 
 ## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
 
@@ -648,15 +659,13 @@ Option 1:
 
 1. Change the `params` for each state and render the document
 2. Render the report
-3 Change the file name to match the parameter
+3. Change the file name to match the parameter
 4. Repeat 39 times
 :::
 
 ## Render all 39 reports    
 
 One HTML report for each state.
-
-Option 2: 
 
 ::: incremental
 
@@ -670,7 +679,8 @@ Option 2:
 
 ## Create the dataframe to iterate over
 
-```r
+````{.markdown code-line-numbers=|2-4|6-7|9-11|12|13-20|21}
+```{{r}}
 library(readr)
 library(dplyr)
 library(quarto)
@@ -682,13 +692,6 @@ polling_places_reports <-
   polling_places |> 
   dplyr::distinct(state) |>
   dplyr::slice_head(n = 5) |> 
-  ...
-```
-
-## Subset and create `quarto_render()` parameters
-
-```r
-... |> 
   dplyr::mutate(
     output_format = "html",
     output_file = paste0(
@@ -699,16 +702,19 @@ polling_places_reports <-
       \(state) list(state = state))) |> 
   dplyr::select(output_file, execute_params)
 ```
+````
 
 ## Map over each row
 
-```r
+````{.markdown code-line-numbers=|3|4|5|}
+```{{r}}
 purrr::pwalk(
   .l = polling_places_reports,                     
   .f = quarto::quarto_render,                   
-  input = here::here("02-iterate-report-parameters.qmd"), 
+  input = here::here("03-iterate-report-parameters.qmd"), 
   .progress = TRUE)
 ```
+````
 
 ## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
 
@@ -726,7 +732,7 @@ Jadey Ryan is holding a workshop on parameterized report generation using Quarto
 - Quarto includes 25 themes from the [Bootswatch](https://bootswatch.com/) project
 - In the YAML, add an included theme using `theme` under `html`
 
-```yaml
+```{.yaml code-line-numbers=|7}
 title: "Polling Places Report - {{< meta params.state >}}"
 author: "Isabella Velásquez"
 date: today
@@ -753,7 +759,7 @@ Please open `04-united-theme.qmd`
 - The [Awesome Quarto GitHub repo](https://github.com/mcanouil/awesome-quarto) has an extensive list of available extensions
 - For example, install and use the `sketchy quarto` extension
 
-```yaml
+```{.yaml code-line-numbers=|6}
 ---
 title: "Polling Places Report - {{< meta params.state >}}"
 author: "Isabella Velásquez"
@@ -782,7 +788,7 @@ Please open `05-sketchy-theme.qmd`
 :::: {.columns}
 
 ::: {.column width="50%"}
-```yaml
+```{.yaml code-line-numbers=|8}
 ---
 title: "Polling Places Report - {{< meta params.state >}}"
 author: "Isabella Velásquez"
@@ -804,7 +810,7 @@ params:
 
 ::: {.column width="50%"}
 
-```css
+```{.css}
 /*-- scss:defaults --*/
 
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz@9..144&family=Gilda+Display&display=swap');
@@ -825,7 +831,7 @@ $link-color: #446571 !default;
 - Include a formatted title block at the start of the report
 - Add to the YAML using `title-block-banner`
 
-```yaml
+```{.yaml code-line-numbers=|9}
 ---
 title: "Polling Places Report - {{< meta params.state >}}"
 author: "Isabella Velásquez"
@@ -855,7 +861,7 @@ Please open `06-custom-theme.qmd`
 - Quarto can render multiple formats from the same document
 - For example, add `pdf` to the YAML to render both HTML and PDF versions of the report
 
-```yaml
+```{.yaml code-line-numbers=|8}
 ---
 title: "Polling Places Report - {{< meta params.state >}}"
 author: "Isabella Velásquez"
@@ -882,7 +888,7 @@ Please open `07-multiple-formats.qmd`
 
 ## Thank you!
 
-I hope that you enjoyed getting started with reporting using Quarto!  Keep in touch!
+I hope that you enjoyed getting started with reporting using Quarto! I'd love to see what you create:
 
 <center>
 
