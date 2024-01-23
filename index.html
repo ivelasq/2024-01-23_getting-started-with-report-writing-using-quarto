@@ -410,9 +410,6 @@
 <section>
 <section id="overview" class="title-slide slide level1 agenda-slide center">
 <h1>Overview</h1>
-<div class="agenda-heading">
-<p>Getting started with report writing using Quarto</p>
-</div>
 <div class="agenda">
 <ol>
 <li><div class="agenda-active">
@@ -442,18 +439,44 @@
 </ol>
 </div>
 </section>
-<section id="workshop-materials" class="slide level2">
-<h2>Workshop materials</h2>
+<section id="what-we-will-create-today" class="slide level2">
+<h2>What we will create today</h2>
+<p><img data-src="images/reports.png"> ::: notes Today, we’ll create reports for polling locations in different states in the U.S. We will touch briefly on PDF report generation, iteration, and styling, but will focus mostly on the set up and execution of HTML reports. :::</p>
+</section>
+<section id="data" class="slide level2">
+<h2>Data</h2>
+<p>We will be using data from the latest <a href="https://github.com/rfordatascience/tidytuesday">TidyTuesday</a> on polling places in the U.S.</p>
+<ul>
+<li>The dataset contains information on the election day(s) in the state, polling locations and their addresses, and various other data points</li>
+<li>We’ll be using a geocoded dataset thanks to <a href="https://github.com/thedivtagguy/tidytuesday/tree/master/2024/week-03-polling-places/analysis"><span class="citation" data-cites="thedivtagguy">@thedivtagguy</span>’s geocoding analysis</a></li>
+</ul>
+
+<img data-src="images/data.png" class="quarto-figure quarto-figure-center r-stretch"><aside class="notes">
+<p>We won’t be covering data cleaning in this session. These data are cleaned into tidy format, with rows for each polling location.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
+</section>
+<section id="session-materials" class="slide level2">
+<h2>Session materials</h2>
 <div>
 <ul>
 <li class="fragment">Slides: <a href="https://ivelasq.quarto.pub/getting-started-with-report-writing-using-quarto/" class="uri">https://ivelasq.quarto.pub/getting-started-with-report-writing-using-quarto/</a></li>
-<li class="fragment">GitHub repo with instructions: <a href="https://github.com/ivelasq/2022-10-27_intro-to-quarto" class="uri">https://github.com/ivelasq/2022-10-27_intro-to-quarto</a></li>
-<li class="fragment">posit.cloud Project: <a href="https://rstudio.cloud/content/4823293" class="uri">https://rstudio.cloud/content/4823293</a></li>
+<li class="fragment">GitHub repo with instructions: <a href="https://github.com/ivelasq/reports-with-quarto-exercises" class="uri">https://github.com/ivelasq/reports-with-quarto-exercises</a></li>
+<li class="fragment">posit.cloud Project: <a href="https://posit.cloud/content/7416825" class="uri">https://posit.cloud/content/7416825</a></li>
 </ul>
 </div>
 </section>
-<section id="workshop-prep" class="slide level2">
-<h2>Workshop prep</h2>
+<section id="session-prep" class="slide level2">
+<h2>Session prep</h2>
 <p>To follow along with the exercises, please be sure that you:</p>
 <ul>
 <li>Are on RStudio v2023.06 or later and have cloned the exercise repo</li>
@@ -488,9 +511,6 @@
 <section>
 <section id="what-is-quarto" class="title-slide slide level1 agenda-slide center">
 <h1>What is Quarto?</h1>
-<div class="agenda-heading">
-<p>Getting started with report writing using Quarto</p>
-</div>
 <div class="agenda">
 <ol>
 <li><div class="agenda-inactive agenda-pre-active">
@@ -681,9 +701,6 @@
 <section>
 <section id="getting-started-with-quarto" class="title-slide slide level1 agenda-slide center">
 <h1>Getting started with Quarto</h1>
-<div class="agenda-heading">
-<p>Getting started with report writing using Quarto</p>
-</div>
 <div class="agenda">
 <ol>
 <li><div class="agenda-inactive agenda-pre-active">
@@ -864,9 +881,6 @@
 <section>
 <section id="creating-your-quarto-report" class="title-slide slide level1 agenda-slide center">
 <h1>Creating your Quarto report</h1>
-<div class="agenda-heading">
-<p>Getting started with report writing using Quarto</p>
-</div>
 <div class="agenda">
 <ol>
 <li><div class="agenda-inactive agenda-pre-active">
@@ -901,17 +915,33 @@
 <ul>
 <li>Include metadata such as author, subtitle, date as well as customization options like theme, font color, fig-width, etc.</li>
 <li>Here, we edit the title, author, publishing date, format, and code chunk options</li>
+<li><code>embed-resources: true</code> is very imporant to create self-contained HTML files</li>
 </ul>
 <div class="sourceCode" id="cb2"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb2-1"><a href=""></a><span class="pp">---</span></span>
 <span id="cb2-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - Alabama"</span></span>
 <span id="cb2-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
 <span id="cb2-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
-<span id="cb2-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> html</span></span>
-<span id="cb2-6"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
-<span id="cb2-7"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb2-8"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb2-9"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb2-10"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb2-6"><a href=""></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb2-7"><a href=""></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb2-8"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb2-9"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb2-10"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb2-11"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb2-12"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<aside class="notes">
+<p><code>embed-resources: true</code> produces a standalone HTML file with no external dependencies, using data: URIs to incorporate the contents of linked scripts, stylesheets, images, and videos. The resulting file should be “self-contained,” in the sense that it needs no external files and no net access to be displayed properly by a browser.</p>
+<style type="text/css">
+        span.MJX_Assistive_MathML {
+          position:absolute!important;
+          clip: rect(1px, 1px, 1px, 1px);
+          padding: 1px 0 0 0!important;
+          border: 0!important;
+          height: 1px!important;
+          width: 1px!important;
+          overflow: hidden!important;
+          display:block!important;
+      }</style></aside>
 </section>
 <section id="add-a-setup-chunk" class="slide level2 smaller">
 <h2>Add a setup chunk</h2>
@@ -1025,9 +1055,6 @@
 <section>
 <section id="iterating-your-reports" class="title-slide slide level1 agenda-slide center">
 <h1>Iterating your reports</h1>
-<div class="agenda-heading">
-<p>Getting started with report writing using Quarto</p>
-</div>
 <div class="agenda">
 <ol>
 <li><div class="agenda-inactive agenda-pre-active">
@@ -1061,7 +1088,7 @@
 <h2>Notice how much we’d have to repeat for each report</h2>
 <ul>
 <li>Manually creating tables for every county - 1881 counties!</li>
-<li>Manually creating report for every state in the country - 50 states!</li>
+<li>Manually creating report for every state in the country - 39 states!</li>
 </ul>
 
 <img data-src="https://media.tenor.com/lJ8UqR3kA7oAAAAj/mushroom-scream.gif" class="quarto-figure quarto-figure-center r-stretch"><aside class="notes">
@@ -1191,32 +1218,36 @@
 <span id="cb11-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - Alabama"</span></span>
 <span id="cb11-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
 <span id="cb11-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
-<span id="cb11-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> html</span></span>
-<span id="cb11-6"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
-<span id="cb11-7"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb11-8"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb11-9"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb11-10"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
-<span id="cb11-11"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
-<span id="cb11-12"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb11-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb11-6"><a href=""></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb11-7"><a href=""></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb11-8"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb11-9"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb11-10"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb11-11"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb11-12"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
+<span id="cb11-13"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
+<span id="cb11-14"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="replace-hard-coded-variables-with-the-params-variable" class="slide level2">
 <h2>Replace hard-coded variables with the params variable</h2>
 <ul>
-<li>Adding parameters in the YAML require the <code>{meta}</code> syntax to reference things in the document metadata</li>
+<li>Adding parameters in the YAML require inline code</li>
 </ul>
 <div class="sourceCode" id="cb12"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb12-1"><a href=""></a><span class="pp">---</span></span>
-<span id="cb12-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
+<span id="cb12-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - `{{r}} params$state``"</span></span>
 <span id="cb12-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
 <span id="cb12-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
-<span id="cb12-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> html</span></span>
-<span id="cb12-6"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
-<span id="cb12-7"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb12-8"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb12-9"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb12-10"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
-<span id="cb12-11"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
-<span id="cb12-12"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb12-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb12-6"><a href=""></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb12-7"><a href=""></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb12-8"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb12-9"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb12-10"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb12-11"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb12-12"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
+<span id="cb12-13"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
+<span id="cb12-14"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="replace-hard-coded-variables-with-the-params-variable-1" class="slide level2 smaller">
 <h2>Replace hard-coded variables with the params variable</h2>
@@ -1254,27 +1285,31 @@
 <span id="cb14-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
 <span id="cb14-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
 <span id="cb14-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
-<span id="cb14-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> html</span></span>
-<span id="cb14-6"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
-<span id="cb14-7"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb14-8"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb14-9"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb14-10"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
-<span id="cb14-11"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
-<span id="cb14-12"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb14-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb14-6"><a href=""></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb14-7"><a href=""></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb14-8"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb14-9"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb14-10"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb14-11"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb14-12"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
+<span id="cb14-13"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
+<span id="cb14-14"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column" style="width:50%;">
 <div class="sourceCode" id="cb15"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb15-1"><a href=""></a><span class="pp">---</span></span>
 <span id="cb15-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
 <span id="cb15-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
 <span id="cb15-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
-<span id="cb15-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> html</span></span>
-<span id="cb15-6"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
-<span id="cb15-7"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb15-8"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb15-9"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb15-10"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
-<span id="cb15-11"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"California"</span></span>
-<span id="cb15-12"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb15-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb15-6"><a href=""></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
+<span id="cb15-7"><a href=""></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb15-8"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb15-9"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb15-10"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb15-11"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb15-12"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
+<span id="cb15-13"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"California"</span></span>
+<span id="cb15-14"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
@@ -1298,19 +1333,19 @@
 <li>Please open <code>03-iterate-report-parameters.qmd</code></li>
 </ul>
 </section>
-<section id="render-all-50-reports" class="slide level2 smaller">
-<h2>Render all 50 reports</h2>
+<section id="render-all-39-reports" class="slide level2 smaller">
+<h2>Render all 39 reports</h2>
 <p>Option 1:</p>
 <div>
 <ol type="1">
 <li class="fragment">Change the <code>params</code> for each state and render the document</li>
 <li class="fragment">Render the report 3 Change the file name to match the parameter</li>
-<li class="fragment">Repeat 50 times</li>
+<li class="fragment">Repeat 39 times</li>
 </ol>
 </div>
 </section>
-<section id="render-all-50-reports-1" class="slide level2 smaller">
-<h2>Render all 50 reports</h2>
+<section id="render-all-39-reports-1" class="slide level2 smaller">
+<h2>Render all 39 reports</h2>
 <p>One HTML report for each state.</p>
 <p>Option 2:</p>
 <div>
@@ -1386,9 +1421,6 @@
 <section>
 <section id="styling-your-reports" class="title-slide slide level1 agenda-slide center">
 <h1>Styling your reports</h1>
-<div class="agenda-heading">
-<p>Getting started with report writing using Quarto</p>
-</div>
 <div class="agenda">
 <ol>
 <li><div class="agenda-inactive agenda-pre-active">
@@ -1427,16 +1459,17 @@
 <div class="sourceCode" id="cb20"><pre class="sourceCode numberSource yaml number-lines code-with-copy"><code class="sourceCode yaml"><span id="cb20-1"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
 <span id="cb20-2"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
 <span id="cb20-3"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
-<span id="cb20-4"><a href=""></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb20-4"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
 <span id="cb20-5"><a href=""></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
-<span id="cb20-6"><a href=""></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at">  united</span></span>
-<span id="cb20-7"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
-<span id="cb20-8"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb20-9"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb20-10"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb20-11"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
-<span id="cb20-12"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
-<span id="cb20-13"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb20-6"><a href=""></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb20-7"><a href=""></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at">  united</span></span>
+<span id="cb20-8"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb20-9"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb20-10"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb20-11"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb20-12"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
+<span id="cb20-13"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
+<span id="cb20-14"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="lets-see-it-in-rstudio-5" class="slide level2" data-background-color="#F5F1E3" data-background-image="images/section.png">
 <h2>Let’s see it in RStudio!</h2>
@@ -1455,14 +1488,16 @@
 <span id="cb21-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
 <span id="cb21-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
 <span id="cb21-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
-<span id="cb21-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> sketchy-html</span></span>
-<span id="cb21-6"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
-<span id="cb21-7"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb21-8"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb21-9"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb21-10"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
-<span id="cb21-11"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
-<span id="cb21-12"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb21-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
+<span id="cb21-6"><a href=""></a><span class="at">  </span><span class="fu">sketchy-html</span><span class="kw">:</span></span>
+<span id="cb21-7"><a href=""></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb21-8"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb21-9"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb21-10"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb21-11"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb21-12"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
+<span id="cb21-13"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
+<span id="cb21-14"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="lets-see-it-in-rstudio-6" class="slide level2" data-background-color="#F5F1E3" data-background-image="images/section.png">
 <h2>Let’s see it in RStudio!</h2>
@@ -1482,16 +1517,17 @@
 <span id="cb22-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
 <span id="cb22-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
 <span id="cb22-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
-<span id="cb22-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb22-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
 <span id="cb22-6"><a href=""></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
-<span id="cb22-7"><a href=""></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">default</span><span class="kw">,</span><span class="at"> custom.scss</span><span class="kw">]</span></span>
-<span id="cb22-8"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
-<span id="cb22-9"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb22-10"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb22-11"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb22-12"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
-<span id="cb22-13"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
-<span id="cb22-14"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb22-7"><a href=""></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb22-8"><a href=""></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">default</span><span class="kw">,</span><span class="at"> custom.scss</span><span class="kw">]</span></span>
+<span id="cb22-9"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb22-10"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb22-11"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb22-12"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb22-13"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
+<span id="cb22-14"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
+<span id="cb22-15"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div><div class="column" style="width:50%;">
 <div class="sourceCode" id="cb23"><pre class="sourceCode numberSource css number-lines code-with-copy"><code class="sourceCode css"><span id="cb23-1"><a href=""></a><span class="co">/*-- scss:defaults --*/</span></span>
 <span id="cb23-2"><a href=""></a></span>
@@ -1516,17 +1552,18 @@
 <span id="cb24-2"><a href=""></a><span class="fu">title</span><span class="kw">:</span><span class="at"> </span><span class="st">"Polling Places Report - ?meta:params.state"</span></span>
 <span id="cb24-3"><a href=""></a><span class="fu">author</span><span class="kw">:</span><span class="at"> </span><span class="st">"Isabella Velásquez"</span></span>
 <span id="cb24-4"><a href=""></a><span class="fu">date</span><span class="kw">:</span><span class="at"> today</span></span>
-<span id="cb24-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span></span>
+<span id="cb24-5"><a href=""></a><span class="fu">format</span><span class="kw">:</span><span class="at"> </span></span>
 <span id="cb24-6"><a href=""></a><span class="at">  </span><span class="fu">html</span><span class="kw">:</span></span>
-<span id="cb24-7"><a href=""></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">default</span><span class="kw">,</span><span class="at"> custom.scss</span><span class="kw">]</span></span>
-<span id="cb24-8"><a href=""></a><span class="fu">title-block-banner</span><span class="kw">:</span><span class="at"> images/flag.jpg</span></span>
-<span id="cb24-9"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
-<span id="cb24-10"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb24-11"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb24-12"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
-<span id="cb24-13"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
-<span id="cb24-14"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
-<span id="cb24-15"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb24-7"><a href=""></a><span class="at">    </span><span class="fu">embed-resources</span><span class="kw">:</span><span class="at"> </span><span class="ch">true</span></span>
+<span id="cb24-8"><a href=""></a><span class="at">    </span><span class="fu">theme</span><span class="kw">:</span><span class="at"> </span><span class="kw">[</span><span class="at">default</span><span class="kw">,</span><span class="at"> custom.scss</span><span class="kw">]</span></span>
+<span id="cb24-9"><a href=""></a><span class="fu">title-block-banner</span><span class="kw">:</span><span class="at"> images/flag.jpg</span></span>
+<span id="cb24-10"><a href=""></a><span class="fu">execute</span><span class="kw">:</span></span>
+<span id="cb24-11"><a href=""></a><span class="at">  </span><span class="fu">echo</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb24-12"><a href=""></a><span class="at">  </span><span class="fu">message</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb24-13"><a href=""></a><span class="at">  </span><span class="fu">warning</span><span class="kw">:</span><span class="at"> </span><span class="ch">false</span></span>
+<span id="cb24-14"><a href=""></a><span class="fu">params</span><span class="kw">:</span></span>
+<span id="cb24-15"><a href=""></a><span class="at">  </span><span class="fu">state</span><span class="kw">:</span><span class="at"> </span><span class="st">"Alabama"</span></span>
+<span id="cb24-16"><a href=""></a><span class="pp">---</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="lets-see-it-in-rstudio-7" class="slide level2" data-background-color="#F5F1E3" data-background-image="images/section.png">
 <h2>Let’s see it in RStudio!</h2>
@@ -1537,9 +1574,6 @@
 <section>
 <section id="rendering-other-formats" class="title-slide slide level1 agenda-slide center">
 <h1>Rendering other formats</h1>
-<div class="agenda-heading">
-<p>Getting started with report writing using Quarto</p>
-</div>
 <div class="agenda">
 <ol>
 <li><div class="agenda-inactive agenda-pre-active">
@@ -1601,9 +1635,6 @@
 <section>
 <section id="thank-you" class="title-slide slide level1 agenda-slide center">
 <h1>Thank you!</h1>
-<div class="agenda-heading">
-<p>Getting started with report writing using Quarto</p>
-</div>
 <div class="agenda">
 <ol>
 <li><div class="agenda-inactive agenda-pre-active">

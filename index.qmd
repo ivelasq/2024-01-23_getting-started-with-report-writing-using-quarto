@@ -41,11 +41,12 @@ knitr:
 ## What we will create today
 
 ![](images/reports.png)
+
 ::: notes
 Today, we'll create reports for polling locations in different states in the U.S. We will touch briefly on PDF report generation, iteration, and styling, but will focus mostly on the set up and execution of HTML reports.
 :::
 
-## Data
+## Data {.smaller}
 
 We will be using data from the latest [TidyTuesday](https://github.com/rfordatascience/tidytuesday) on polling places in the U.S.
 
@@ -289,7 +290,7 @@ In RStudio, you can use the Render button to render the file, or take it through
 
 # Creating your Quarto report
 
-## Edit the YAML header
+## Edit the YAML header {.smaller}
 
 - Include metadata such as author, subtitle, date as well as customization options like theme, font color, fig-width, etc.
 - Here, we edit the title, author, publishing date, format, and code chunk options
@@ -423,7 +424,7 @@ In this report, we present a detailed overview of polling places in various coun
 
 ## Let's see it in RStudio! {font-family="Gilda+Display" background-color="#F5F1E3" background-image="images/section.png"}
 
-- Please open `01-template-report.qmd`
+Please open `01-template-report.qmd`
 
 # Iterating your reports
 
@@ -438,7 +439,7 @@ In this report, we present a detailed overview of polling places in various coun
 
 :::
 
-## Let's automate the county tables using `knitr::knit_child()`
+## Let's automate the county tables using `knitr::knit_child()` {.smaller}
 
 - `knitr::knit_child()` allows you to break your content into smaller, modular pieces
 - It involves having a "child" document as a template and running it repeatedly with different parameters
@@ -493,7 +494,7 @@ The template begins with a title section that includes the county name obtained 
 
 ## Let's see it in RStudio! {font-family="Gilda+Display" background-color="#F5F1E3" background-image="images/section.png"}
 
-- Please open `02-iterate-report-knit-child.qmd`
+Please open `02-iterate-report-knit-child.qmd`
 
 ## Let's automate the state reports using parameters
 
@@ -537,7 +538,7 @@ params:
 
 ```yaml
 ---
-title: "Polling Places Report - `r params$state``"
+title: "Polling Places Report - `{{r}} params$state``"
 author: "Isabella Velásquez"
 date: today
 format: 
@@ -626,6 +627,8 @@ params:
 
 :::
 
+. . .
+
 ```r
 quarto::quarto_render(
   input = here::here("polling-places-report.qmd"),
@@ -635,9 +638,9 @@ quarto::quarto_render(
 
 ## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
 
-- Please open `03-iterate-report-parameters.qmd`
+Please open `03-iterate-report-parameters.qmd`
 
-## Render all 39 reports {.smaller}
+## Render all 39 reports
 
 Option 1: 
 
@@ -649,7 +652,7 @@ Option 1:
 4. Repeat 39 times
 :::
 
-## Render all 39 reports {.smaller}
+## Render all 39 reports    
 
 One HTML report for each state.
 
@@ -709,8 +712,8 @@ purrr::pwalk(
 
 ## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
 
-- Please open `03-iterate-report-parameters.qmd`
-- Also open `03-parameters-render.R`
+Please open `03-iterate-report-parameters.qmd`
+- Also open `_parameters-render.R`
 
 ::: {.callout-note}
 Jadey Ryan is holding a workshop on parameterized report generation using Quarto with R-Ladies Abuja on February 21st!
@@ -742,7 +745,7 @@ params:
 
 ## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
 
-- Please open `04-united-theme.qmd`
+Please open `04-united-theme.qmd`
 
 ## Use extensions {.smaller}
 
@@ -769,7 +772,7 @@ params:
 
 ## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
 
-- Please open `05-sketchy-theme.qmd`
+Please open `05-sketchy-theme.qmd`
 
 ## Use custom themes {.smaller}
 
@@ -843,11 +846,11 @@ params:
 
 ## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
 
-- Please open `06-custom-theme.qmd`
+Please open `06-custom-theme.qmd`
 
 # Rendering other formats
 
-## Add other formats to the YAML
+## Add other formats to the YAML {.smaller}
 
 - Quarto can render multiple formats from the same document
 - For example, add `pdf` to the YAML to render both HTML and PDF versions of the report
@@ -873,7 +876,7 @@ params:
 
 ## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
 
-- Please open `07-multiple-formats.qmd`
+Please open `07-multiple-formats.qmd`
 
 # Thank you!
 
@@ -881,14 +884,7 @@ params:
 
 I hope that you enjoyed getting started with reporting using Quarto!  Keep in touch!
 
-:::: {.columns}
-
-::: {.column width="60%"}
-
-
-:::
-
-::: {.column width="40%"}
+<center>
 
 [{{< fa brands github >}} \@ivelasq](https://github.com/ivelasq)
 
@@ -898,7 +894,6 @@ I hope that you enjoyed getting started with reporting using Quarto!  Keep in to
 
 [{{< fa link >}} ivelasq.rbind.io](https://ivelasq.rbind.io)
 
-:::
-::::
+</center>
 
 ## Q&A {background-color="#F5F1E3" background-image="images/section.png"}   
