@@ -68,6 +68,7 @@ Welcome to "Getting started with report writing using Quarto"! You have two opti
 ### knit_child()
 
 - [Generating dynamic contents in R Markdown and Quarto](https://www.qiushiyan.dev/posts/dynamic-rmd-quarto/) by Qiushi Yan
+- [Publishing content in Quarto using conditionals and if/else code flow](https://jimgar.github.io/posts/quarto-code-conditionals/post.html) by Jim Gardner
 - [knit_child in a loop - variable as title (StackOverflow)](https://stackoverflow.com/questions/43873345/knit-child-in-a-loop-variable-as-title)
 - [How do I knit child doc uments with parameters into a main RMarkdown document? (StackOverflow)](https://stackoverflow.com/questions/70655915/how-do-i-knit-child-documents-with-parameters-into-a-main-rmarkdown-document)
 
