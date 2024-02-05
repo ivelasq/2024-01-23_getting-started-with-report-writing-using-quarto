@@ -473,7 +473,7 @@ parsed_child <- knitr::knit_child(text = unlist(expanded_child))
 ````
 
 ::: notes
-This code filters data for Alabama, extracts unique county names, generates child documents based on a template for each county, and then combines these documents into a single document using the knit_child function. It starts by filtering the polling_places data to include only rows where the state is "Alabama." Then we create an empty list named expanded_child, use the lapply function to iterate over each county name (xx), and for each county, it expands a child document by applying the knit_expand function to a template file ("../_template.qmd").  The current_title = xx argument is passed to the knit_expand function to customize the expansion based on the current county name. Finally, it combines the expanded child documents into a single document using knit_child. The unlist function is used to convert the list of expanded child documents into a character vector.
+This code filters data for Alabama, extracts unique county names, generates child documents based on a template for each county, and then combines these documents into a single document using the knit_child function. It starts by filtering the polling_places data to include only rows where the state is "Alabama." Then we create an empty list named expanded_child, use the lapply function to iterate over each county name (xx), and for each county, it expands a child document by applying the knit_expand function to a template file ("../_template.qmd").  The current_county = xx argument is passed to the knit_expand function to customize the expansion based on the current county name. Finally, it combines the expanded child documents into a single document using knit_child. The unlist function is used to convert the list of expanded child documents into a character vector.
 :::
 
 ## Set up the "child" document
@@ -482,15 +482,15 @@ In another file called `_template.qmd`:
 
 ````{.markdown code-line-numbers=|2|2-13}
 ```{{r}}
-### {{current_title}} COUNTY
+### {{current_county}} COUNTY
 
-* Total Polling Places: `{{r}} polling_places |> filter(state == params$state, county_name == "{{current_title}}") |> count()`
+* Total Polling Places: `{{r}} polling_places |> filter(state == params$state, county_name == "{{current_county}}") |> count()`
 * Example Locations:
 
 ```{{r}}
 polling_places |> 
   filter(state == params$state, 
-         county_name == "{{current_title}}") |> 
+         county_name == "{{current_county}}") |> 
   head(6) |> 
   select(name, address.x) |> 
   kbl(format = "markdown")
@@ -498,7 +498,7 @@ polling_places |>
 ````
 
 ::: notes
-The template begins with a title section that includes the county name obtained from the current_title variable. The polling_places data is filtered again to include only the specified state and county. The selected columns (name and address.x) are formatted as a Markdown table using the kbl function.
+The template begins with a title section that includes the county name obtained from the current_county variable. The polling_places data is filtered again to include only the specified state and county. The selected columns (name and address.x) are formatted as a Markdown table using the kbl function.
 :::
 
 ## Let's see it in RStudio! {font-family="Gilda+Display" background-color="#F5F1E3" background-image="images/section.png"}
