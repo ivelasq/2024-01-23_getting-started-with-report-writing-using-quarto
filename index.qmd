@@ -283,7 +283,7 @@ Use the **Render** button to preview documents as you edit them.
 ![](images/render.png){fig-align="center"}
 
 ::: notes
-In RStudio, you can use the Render button to render the file, or take it through that process of convering to markdown, pandoc processing, etc. and preview the output with a single click. If you're familiar with R Markdown, it is where the knit button would show for those document. If you prefer to automatically render whenever you save, you can check the Render on Save option on the editor toolbar. The preview will update whenever you re-render the document. Side-by-side preview works for both HTML and PDF outputs.
+In RStudio, you can use the Render button to render the file, or take it through that process of converting to markdown, pandoc processing, etc. and preview the output with a single click. If you're familiar with R Markdown, it is where the knit button would show for those document. If you prefer to automatically render whenever you save, you can check the Render on Save option on the editor toolbar. The preview will update whenever you re-render the document. Side-by-side preview works for both HTML and PDF outputs.
 :::
 
 ## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
@@ -316,7 +316,7 @@ execute:
 `embed-resources: true` produces a standalone HTML file with no external dependencies, using data: URIs to incorporate the contents of linked scripts, stylesheets, images, and videos. The resulting file should be “self-contained,” in the sense that it needs no external files and no net access to be displayed properly by a browser.
 :::
 
-## Add a setup chunk
+## Add a setup chunk {.smaller}
 
 - We can add chunk options on a per code-block basis by using `#|`
 - In this setup chunk, load all the packages and the dataset
@@ -461,9 +461,10 @@ In Quarto, when you have a master document that includes or "knits" other docume
 ```{{r}}
 #| results: hide
 counties <- polling_places |> filter(state == "Alabama") |> distinct(county_name) |> pull()
-expanded_child <- lapply(counties,
-                         function(xx)
-                           knitr::knit_expand("../_template.qmd", current_title = xx))
+
+expanded_child <- counties |> 
+  map(function(county) knitr::knit_expand("../_template.qmd", current_county = county))  |> 
+  flatten()
 
 parsed_child <- knitr::knit_child(text = unlist(expanded_child))
 ```
@@ -539,7 +540,7 @@ params:
 ---
 ```
 
-## Replace hard-coded variables with the params variable
+## Replace hard-coded variables with the params variable {.smaller}
 
 - Use the `params$state` notation anytime there's a hardcoded value
 
@@ -651,7 +652,7 @@ quarto::quarto_render(
 
 Please open `03-iterate-report-parameters.qmd`
 
-## Render all 39 reports
+## Render all 39 reports {.smaller}
 
 Option 1: 
 
@@ -718,7 +719,7 @@ purrr::pwalk(
 
 ## Let's see it in RStudio! {background-color="#F5F1E3" background-image="images/section.png"}
 
-Please open `03-iterate-report-parameters.qmd`
+- Please open `03-iterate-report-parameters.qmd`
 - Also open `_parameters-render.R`
 
 ::: {.callout-note}
